@@ -14,6 +14,11 @@
         </div>
 
         <div>
+            <label for="bday">Birth Date</label>
+            <input type="date" name="created" value="<?= date('Y-m-d') ?>" id="bday">
+        </div>
+
+        <div>
             <select name="occupational_status">
                 <option value="employed">Employed</option>
                 <option value="student">Student</option>

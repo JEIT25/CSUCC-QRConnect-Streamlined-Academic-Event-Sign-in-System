@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
+
 use App\Models\Attendee;
 use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\Facades\QrCode; //qr code generator package
+use Illuminate\Support\Facades\Storage; //store qr code
 
 class AttendeeController extends Controller
 {
@@ -33,6 +37,14 @@ class AttendeeController extends Controller
      */
     public function store(Request $request)
     {
+        //all form data converted to lowercase
+        foreach ($request->all() as $key => $value) {
+            // Lowercase the value only if it's a string
+            if (is_string($value)) {
+                $request->merge([$key => strtolower($value)]);
+            }
+        }
+
         //validating data recieved
         $validatedData = $request->validate([
             'fname' => 'required|string|max:255',
@@ -56,6 +68,7 @@ class AttendeeController extends Controller
         $attendee->school_name = $validatedData['school_name'];
         $attendee->employer = $validatedData['employer'];
         $attendee->email = $validatedData['email'];
+        $attendee->unique_code = Str::lower(Str::random(6)); //generate random lowercase unique code
 
         // Handle file upload
         if ($request->hasFile('valid_id')) {
@@ -75,8 +88,18 @@ class AttendeeController extends Controller
 
         // Save the user
         $attendee->save();
+        $attendee_qrCode = QrCode::size(200)
+            ->backgroundColor(255, 255, 0)
+            ->color(0, 0, 255)
+            ->margin(1)
+            ->generate(
+                $attendee->unique_code
+            );
+        $qr_fileName = $attendee->fname . $attendee->lname . time() . 'svg';
 
-        return redirect()->route("attendees.index");
+        Storage::disk('attendee_qrcodes')->put($qr_fileName, $attendee_qrCode);
+
+        return view("welcome", ['attendee_qrCode' => $attendee_qrCode]);
     }
 
     /**

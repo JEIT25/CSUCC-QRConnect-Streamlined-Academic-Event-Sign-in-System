@@ -21,5 +21,6 @@ class Attendee extends Model
         'employer',
         'email',
         'valid_id',
+        'unique_code'
     ];
 }

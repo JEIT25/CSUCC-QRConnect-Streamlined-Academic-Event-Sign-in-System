@@ -16,10 +16,11 @@ return new class extends Migration {
             $table->string('lname');
             $table->string('country');
             $table->string('occupational_status');
-            $table->string('school_name');
-            $table->string('employer');
+            $table->string('school_name')->nullable();
+            $table->string('employer')->nullable();
             $table->string('email')->unique();
             $table->string('valid_id');
+            $table->string('unique_code')->unique();
             $table->timestamps();
         });
     }
