@@ -13,12 +13,15 @@ class Attendee extends Model
         return $this->belongsToMany(Event::class);
     }
     protected $fillable = [
+        'type',
         'fname',
         'lname',
+        'birth_date',
         'country',
         'occupational_status',
         'school_name',
         'employer',
+        'work_specialization',
         'email',
         'valid_id',
         'unique_code'
