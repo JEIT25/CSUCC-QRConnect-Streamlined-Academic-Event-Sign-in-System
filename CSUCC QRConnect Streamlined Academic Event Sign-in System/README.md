@@ -58,6 +58,12 @@ Before proceeding, ensure that you have PHP and Composer installed on your syste
      ```
      git clone <repository_url>
      ```
+   **OR**
+
+     **Download The Zip File Of the Project Code Directly from Repository**:
+     ```
+     Code -> Download Zip File>
+     ```
 
 2. **Navigate to Project Directory**:
    - Open a terminal or command prompt.
