@@ -1,9 +1,6 @@
-THINGS TO DO BEFORE INSTALLING COMPOSER PACKAGES:
-
-Ensure that xampp is intalled on localmachine , download here -> https://www.apachefriends.org/download.html
+## THINGS TO DO BEFORE INSTALLING COMPOSER PACKAGES:
 
 This guide provides step-by-step instructions for installing Tesseract OCR on a Windows system and adding it to the system path.
-
 ## Installing Tesseract OCR on Windows
 
 1. **Download Tesseract Installer**:
@@ -40,16 +37,15 @@ This guide provides step-by-step instructions for installing Tesseract OCR on a 
    - Press Enter to execute the command.
    - If Tesseract is installed correctly, you should see version information printed.
 
-
 # Installing Composer Dependencies Of The Project
 This guide provides instructions for installing PHP dependencies using Composer.
 
 ## Prerequisites
 
 Before proceeding, ensure that you have PHP and Composer installed on your system.
-**XAMPP** : (INCLUDES PHP) latest version
-- **PHP**: Version 7.2 or higher
+**XAMPP** : Ensure that xampp is intalled on localmachine  [download here](https://www.apachefriends.org/download.html)
 - **Composer**: Installation instructions can be found [here](https://getcomposer.org/download/).
+**Zip Extension**: enable(remove semicolon ";") extension=zip in the php.ini file , found in the xampp/php directory (e.g., `C:\xampp\php`).
 
 ## Installation Steps
 
