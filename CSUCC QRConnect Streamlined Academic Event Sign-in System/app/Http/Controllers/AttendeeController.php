@@ -10,6 +10,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode; //qr code generator package
 use Illuminate\Support\Facades\Storage; //store qr code
 use thiagoalessio\TesseractOCR\TesseractOCR; // orcr text extraction from image
 use Illuminate\Validation\ValidationException; //for handling validatione exception
+use Illuminate\Database\UniqueConstraintViolationException;
 
 class AttendeeController extends Controller
 {
@@ -47,6 +48,16 @@ class AttendeeController extends Controller
             }
         }
 
+        //handle the array value of work_specizalation data from request
+        $employer = $request->input('employer');
+        $workSpecializationArray = $request->input('work_specialization', []); //extract array data values from work_speicalization
+        if($workSpecializationArray[0] == Null|| $employer == Null) {
+            $request->merge(['work_specialization' => null]); //set to null if null values found
+        } else {
+            $request->merge(['work_specialization' => $workSpecializationArray[0]]); //set singular string value of array to new value of work specialization
+        }
+
+
         //validating data recieved
         try {
             // Validate the request data
@@ -64,20 +75,10 @@ class AttendeeController extends Controller
                 'valid_id' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             ]);
 
-            // // Check if school_name is empty or not present in the request
-            // if (!$request->filled('school_name')) {
-            //     // Use the value from the hidden input field (school_name_hidden)
-            //     $validatedData['school_name'] = $request->input('school_name_hidden');
-            // }
-
             // Validation passed, continue to create new attendee
 
         } catch (ValidationException $e) {
-            // Validation failed
-            $errors = $e->validator->errors()->messages();
-
-            // Redirect back to the form with validation errors and input data(not resetting input data in form)
-            return redirect()->back()->withErrors($errors);
+            return redirect()->back()->withErrors($e->validator->errors()->messages())->withInput();
         }
 
 
@@ -124,7 +125,7 @@ class AttendeeController extends Controller
                 } else {
                     // Either first name or last name is not found in the OCR text
                     // Redirect back to the register route
-                    return redirect()->route('attendees.create')->with('invalid_id', 'Valid ID validation failed, unclear/invalid ID!')->withInput();
+                    return redirect()->route('attendees.create')->with('invalid_id', 'Valid ID validation failed, unclear/credentials does not match/invalid ID!')->withInput();
                 }
 
                 $filePath = $file->storeAs('attendee_ids', $fileName);
@@ -132,9 +133,11 @@ class AttendeeController extends Controller
                 // Save file path in the database
                 $new_attendee->valid_id = $filePath;
             } else {
-                return "Invalid file.";
+                return redirect()->route('attendees.create')->with('invalid_id', 'Valid ID validation failed, ID format not accepted')->withInput();
             }
         }
+
+
 
         //Generate QR Code for new attendee
         $new_attendee_qrCode = QrCode::size(200)
@@ -144,15 +147,23 @@ class AttendeeController extends Controller
             ->generate(
                 $new_attendee->unique_code
             );
-        // $qr_fileName = $new_attendee->fname . $new_attendee->lname . time() . 'svg';
 
-        //store new qr code in server storage
+        //store new qr code in server storage (optional)
+        // $qr_fileName = $new_attendee->fname . $new_attendee->lname . time() . 'svg';
         // Storage::disk('attendee_qrcodes')->put($qr_fileName, $new_attendee_qrCode);
 
-        //save new attendee to database
-        $new_attendee->save();
+        //handle saveing new attendee to database
+        try {
+            $new_attendee->save();
+        } catch (UniqueConstraintViolationException $e) { //handle email unique constraint
+            $errorMessage = 'This email has already been taken.';
+            return redirect()->back()->withErrors(['email' => $errorMessage])->withInput();
+        }
+
+        // dd($request->all());
         return redirect()->route('attendees.show', ['attendee' => $new_attendee->id])->with(['attendee_qrCode' => $new_attendee_qrCode, 'new_attendee' => $new_attendee]);
     }
+
 
     /**
      * Display the specified resource.

@@ -1,66 +1,78 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+THINGS TO DO BEFORE INSTALLING COMPOSER PACKAGES:
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Ensure that xampp is intalled on localmachine , download here -> https://www.apachefriends.org/download.html
 
-## About Laravel
+This guide provides step-by-step instructions for installing Tesseract OCR on a Windows system and adding it to the system path.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Installing Tesseract OCR on Windows
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. **Download Tesseract Installer**:
+   - Go to the [Tesseract GitHub Releases page](https://github.com/UB-Mannheim/tesseract/wiki).
+   - Download the latest installer for Windows (.exe format).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+2. **Run Installer**:
+   - Double-click the downloaded .exe file to run the installer.
+   - Follow the installation instructions provided.
 
-## Learning Laravel
+3. **Verify Installation**:
+   - Navigate to the installation directory to ensure successful installation.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Adding Tesseract to System Path
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. **Open System Properties**:
+   - Right-click on `This PC` or `My Computer` and select `Properties`.
+   - Click on `Advanced system settings` in the left sidebar.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. **Open Environment Variables**:
+   - In the System Properties window, click on `Environment Variables`.
 
-## Laravel Sponsors
+3. **Edit System Variables**:
+   - Under `System variables`, find and select the `Path` variable.
+   - Click on `Edit`.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+4. **Add Tesseract Path**:
+   - Click on `New`.
+   - Enter the path to Tesseract installation directory (e.g., `C:\Program Files\Tesseract-OCR`).
+   - Click `OK` to close each window.
 
-### Premium Partners
+5. **Verify Path Addition**:
+   - Open Command Prompt (cmd) and type `tesseract -v`.
+   - Press Enter to execute the command.
+   - If Tesseract is installed correctly, you should see version information printed.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
 
-## Contributing
+# Installing Composer Dependencies Of The Project
+This guide provides instructions for installing PHP dependencies using Composer.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Prerequisites
 
-## Code of Conduct
+Before proceeding, ensure that you have PHP and Composer installed on your system.
+**XAMPP** : (INCLUDES PHP) latest version
+- **PHP**: Version 7.2 or higher
+- **Composer**: Installation instructions can be found [here](https://getcomposer.org/download/).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Installation Steps
 
-## Security Vulnerabilities
+1. **Clone Repository**:
+   - Clone the repository to your local machine using Git:
+     ```
+     git clone <repository_url>
+     ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+2. **Navigate to Project Directory**:
+   - Open a terminal or command prompt.
+   - Change directory to the root of your project where the `composer.json` file is located.
 
-## License
+3. **Run Composer Install**:
+   - Execute the following command to install dependencies defined in `composer.json`:
+     ```
+     composer install
+     ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+4. **Wait for Installation**:
+   - Composer will download and install all required packages specified in `composer.json`.
+   - Wait for the process to complete.
+
+5. **Verify Installation**:
+   - Once the installation is finished, check for any error messages in the terminal.
+   - Verify that the `vendor` directory is created in your project directory

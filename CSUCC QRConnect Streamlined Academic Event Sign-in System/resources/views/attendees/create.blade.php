@@ -6,14 +6,18 @@
         @csrf
 
         <div>
-            <input type="text" name="fname" placeholder="First Name" value="{{ old('fname') }}">
-            @error('fname')
-                <div>{{ $message }}</div>
-            @enderror
-            <input type="text" name="lname" placeholder="Last Name" value="{{ old('lname') }}">
-            @error('lname')
-                <div>{{ $message }}</div>
-            @enderror
+            <section>
+                <input type="text" name="fname" placeholder="First Name" value="{{ old('fname') }}">
+                @error('fname')
+                    <div>{{ $message }}</div>
+                @enderror
+            </section>
+            <section>
+                <input type="text" name="lname" placeholder="Last Name" value="{{ old('lname') }}">
+                @error('lname')
+                    <div>{{ $message }}</div>
+                @enderror
+            </section>
         </div>
 
         <div>
@@ -31,10 +35,10 @@
             @enderror
         </div>
 
-        <div>
+        <div id="occupational_status_cont">
             <select name="occupational_status" id="occupational_status">
-                <option value="employed" {{ old('occupational_status') == 'employed' ? 'selected' : '' }}>Employed</option>
                 <option value="student" {{ old('occupational_status') == 'student' ? 'selected' : '' }}>Student</option>
+                <option value="employed" {{ old('occupational_status') == 'employed' ? 'selected' : '' }}>Employed</option>
             </select>
             @error('occupational_status')
                 <div>{{ $message }}</div>
@@ -55,32 +59,33 @@
             @enderror
         </div>
 
-        <div>
-            <input type="text" name="school_name" placeholder="School Name" value="{{ old('school_name') }}"
-                id="schoolField">
+        <div id="schoolField-cont" style="display: none;">
+            <input type="text" id="schoolField" name="school_name" placeholder="School Name"
+                value="{{ old('school_name') }}">
             @error('school_name')
                 <div>{{ $message }}</div>
             @enderror
         </div>
 
-        <div>
-            <input type="text" name="employer" placeholder="Employer" value="{{ old('employer') }}" id="employerField">
+        <div id="employerField-cont" style="display: none;">
+            <input type="text" id="employerField" name="employer" placeholder="Employer" value="{{ old('employer') }}">
             @error('employer')
                 <div>{{ $message }}</div>
             @enderror
         </div>
 
-        <div id="work_specialization">
+        <div id="work_specialization_cont" style="display: none;">
             <label for="specialization">Work Specialization:</label>
-            <select name="work_specialization" id="specialization" onchange="showSpecifyInput(this)">
-                <option value="teacher" {{ old('work_specialization') == 'teacher' ? 'selected' : '' }}>Teacher</option>
+            <select name="work_specialization[]" id="work_specialization" onchange="showSpecifyInput(this)">
+                <option value="teacher" {{ old('work_specialization') == 'teacher' ? 'selected' : '' }}>Teacher
+                </option>
                 <option value="office-admin" {{ old('work_specialization') == 'office-admin' ? 'selected' : '' }}>Office
                     Admin</option>
                 <option value="others" {{ old('work_specialization') == 'others' ? 'selected' : '' }}>Others</option>
             </select>
             <div id="specifyInput" style="display: none;">
                 <label for="otherSpec">Specify:</label>
-                <input type="text" id="otherSpec" name="work_specialization" value="{{ old('work_specialization') }}">
+                <input type="text" id="otherSpec" name="work_specialization[]">
             </div>
             @error('work_specialization')
                 <div>{{ $message }}</div>
