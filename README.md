@@ -50,6 +50,11 @@ Before proceeding, ensure that you have PHP and Composer installed on your syste
 2. **Composer**:
    - Installation instructions can be found [here](https://getcomposer.org/download/).
 
+4. **Add PHP to System Path**
+   - Under `System variables`, find and select the `Path` variable.
+   - Click on `Edit`.
+   - add new path , the xamp/php directory (e,g. ``C:\xampp\php``)
+
 3. **Enable Zip Extension**:
    - enable(remove semicolon ";") extension=zip in the php.ini file , found in the xampp/php directory (e.g., `C:\xampp\php`).
 
