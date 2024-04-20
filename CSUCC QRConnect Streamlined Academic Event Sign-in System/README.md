@@ -43,10 +43,13 @@ This guide provides instructions for installing PHP dependencies using Composer.
 ## Prerequisites
 
 Before proceeding, ensure that you have PHP and Composer installed on your system.
+
 **XAMPP** :
    - Ensure that xampp is intalled on localmachine  [download here](https://www.apachefriends.org/download.html).
+
 **Composer**:
    - Installation instructions can be found [here](https://getcomposer.org/download/).
+   
 **Enable Zip Extension**:
    - enable(remove semicolon ";") extension=zip in the php.ini file , found in the xampp/php directory (e.g., `C:\xampp\php`).
 
