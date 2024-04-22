@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('event_attendees', function (Blueprint $table) {
             $table->unsignedBigInteger("event_id");
             $table->unsignedBigInteger("attendee_id");
-            $table->timestamps();
+            $table->dateTime('checkin')->default(now());
 
             $table->foreign("event_id")->references("id")->on("events")->onDelete("cascade");
             $table->foreign("attendee_id")->references("id")->on("attendees")->onDelete("cascade");

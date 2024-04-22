@@ -3,7 +3,7 @@ use App\Http\Controllers\AttendeeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return 'welcome';
 });
 
 

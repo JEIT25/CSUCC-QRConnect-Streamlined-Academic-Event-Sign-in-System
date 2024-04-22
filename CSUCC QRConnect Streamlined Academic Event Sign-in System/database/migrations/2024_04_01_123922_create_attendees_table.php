@@ -16,12 +16,12 @@ return new class extends Migration {
             $table->string('fname');
             $table->string('lname');
             $table->string('birth_date');
+            $table->string('email')->unique();
             $table->string('country');
             $table->string('occupational_status');
             $table->string('school_name')->nullable();
             $table->string('employer')->nullable();
             $table->string('work_specialization')->nullable();
-            $table->string('email')->unique();
             $table->string('valid_id');
             $table->string('unique_code')->unique();
             $table->timestamps();
