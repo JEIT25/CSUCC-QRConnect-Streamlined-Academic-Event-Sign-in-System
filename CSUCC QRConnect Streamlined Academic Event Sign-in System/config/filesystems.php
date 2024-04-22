@@ -44,7 +44,16 @@ return [
             'throw' => false,
         ],
 
-        'user_ids' => [
+
+        'admin_ids' => [
+            'driver' => 'local',
+            'root' => storage_path('app/admin_ids'),
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'private',
+            'throw' => false,
+        ],
+
+        'attendee_ids' => [
             'driver' => 'local',
             'root' => storage_path('app/attendee_ids'),
             'url' => env('APP_URL') . '/storage',

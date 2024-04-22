@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage; //store qr code
 use thiagoalessio\TesseractOCR\TesseractOCR; // orcr text extraction from image
 use Illuminate\Validation\ValidationException; //for handling validatione exception
 use Illuminate\Database\UniqueConstraintViolationException;
+use thiagoalessio\TesseractOCR\UnsuccessfulCommandException;
 
 class AttendeeController extends Controller
 {
@@ -104,11 +105,18 @@ class AttendeeController extends Controller
             // Check if the file is valid
             if ($file->isValid()) {
                 $fileName = $file->getClientOriginalName();
-                // Create an instance of TesseractOCR and set the image path
-                $ocr = new TesseractOCR($file);
 
-                // Perform OCR and get the text result
-                $text = $ocr->run();
+                try {
+                    // Create an instance of TesseractOCR and set the image path
+                    $ocr = new TesseractOCR($file);
+
+                    // Perform OCR and get the text result
+                    $text = $ocr->run();
+
+                } catch (UnsuccessfulCommandException $e) {
+                    // Handle the unsuccessful command exception
+                    return redirect()->route('attendees.create')->with('invalid_id', 'Valid ID validation failed, unclear/credentials does not match/invalid ID!')->withInput();
+                }
 
                 // Check if the OCR text contains both the first name and last name
                 if (
@@ -128,10 +136,10 @@ class AttendeeController extends Controller
                     return redirect()->route('attendees.create')->with('invalid_id', 'Valid ID validation failed, unclear/credentials does not match/invalid ID!')->withInput();
                 }
 
-                $filePath = $file->storeAs('attendee_ids', $fileName);
+                // $filePath = $file->storeAs('attendee_ids', $fileName);
 
-                // Save file path in the database
-                $new_attendee->valid_id = $filePath;
+                // // Save file path in the database
+                // $new_attendee->valid_id = $filePath;
             } else {
                 return redirect()->route('attendees.create')->with('invalid_id', 'Valid ID validation failed, ID format not accepted')->withInput();
             }

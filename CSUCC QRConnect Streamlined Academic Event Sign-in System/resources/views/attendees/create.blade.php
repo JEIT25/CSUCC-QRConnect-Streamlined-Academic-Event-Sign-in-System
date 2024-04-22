@@ -113,7 +113,8 @@
         </div>
 
         <div>
-            <input type="submit" name="submit" id="submitBtn">
+            <button type="submit" name="submit" id="submitBtn">Submit</button>
+            {{-- <input type="submit" name="submit" id="submitBtn"> --}}
         </div>
     </form>
     <!-- Include individual JavaScript files -->
