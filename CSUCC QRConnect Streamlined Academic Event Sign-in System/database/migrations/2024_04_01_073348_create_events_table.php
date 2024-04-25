@@ -16,8 +16,7 @@ return new class extends Migration {
             $table->string("name");
             $table->string("description");
             $table->string("location");
-            $table->dateTime("start_time");
-            $table->dateTime("end_time");
+            $table->dateTime("start_date_time");
             $table->timestamps();
             $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade");
         });

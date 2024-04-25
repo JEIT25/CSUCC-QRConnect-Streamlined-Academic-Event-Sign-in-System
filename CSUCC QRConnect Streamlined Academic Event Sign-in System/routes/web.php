@@ -2,8 +2,9 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AttendeeController;
 use App\Http\Controllers\AuthController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EventController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ForgotPasswordController;
 
 Route::get('/', function () {
@@ -11,21 +12,18 @@ Route::get('/', function () {
 })->name('home');
 
 //admin routes
-Route::resource('attendees', AttendeeController::class);
+Route::resource('attendees', AttendeeController::class)->only([
+    'create',
+    'store',
+    'show'
+]);
 
-Route::post('attendees', [AttendeeController::class, 'create'])
-    ->name('attendees.create');
 
-Route::post('attendees', [AttendeeController::class, 'store'])
-    ->name('admins.store');
-
-Route::get('attendees', [AttendeeController::class, 'show'])
-    ->name('attendees.show');
-
-//handle new admin creation
-Route::resource("admins", AdminController::class);
-Route::get('admins', [AdminController::class, 'create'])
-    ->name('admins.create'); //admin sign-up route
+//!handle new admin creation
+Route::resource("admins", AdminController::class)->only([
+    'create',
+    'store'
+]);
 
 Route::get('signup', function () {
     return redirect()->route('admins.create');
@@ -34,28 +32,27 @@ Route::get('signup', function () {
 Route::post('admins', [AdminController::class, 'store'])
     ->name('admins.store'); //handle storing new admin acc
 
-//authenticaion for admins routes
-Route::resource("auth", AuthController::class);
-
-Route::get('auth', [AuthController::class, 'create'])
-    ->name('auth.create'); //log-in route
+//!authenticaion for admins routes
+Route::resource("auth", AuthController::class)->only([
+    'create',
+    'store',
+]);
 
 Route::get('login', function () {
     return redirect()->route('auth.create');
 })->name('login'); //alias for log-in route
 
-Route::post('auth', [AuthController::class, 'store'])
-    ->name('auth.store'); //handle log-ins, route
 
-//group of protected  admin(with user account) routes, needs authentication
+//!group of protected  admin(with user account) routes, needs authentication
 Route::middleware('auth')->group(function () {
-    Route::get('admins', [AdminController::class, 'index']); //homepage for admins that are authenticated
+    Route::get('admins', [AdminController::class, 'index'])
+        ->name('admins.index'); //homepage for admins that are authenticated
 
     Route::delete('auth', [AuthController::class, 'destroy'])
         ->name('auth.destroy'); //handle log-outs, route
-})->name('admins.index');
+});
 
-
+//!Forgot password and reset password routes
 Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
     ->name('forgot.password');
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
@@ -68,7 +65,22 @@ Route::post('/reset-password', [ForgotPasswordController::class, 'resetPasswordP
     ->name('reset.password.post');
 
 
-// Route::get('/forgot-password', 'ForgotPasswordController@showLinkRequestForm')->name('password.requestform');
-// Route::post('/forgot-password', 'ForgotPasswordController@sendResetLinkEmail')->name('password.requestform');
 
 
+Route::middleware('auth')->group(function () {
+    //Event routes
+    Route::resource("events", EventController::class);
+    Route::get('events/create', [EventController::class, 'create'])->name('events.create');
+});
+
+
+// Route for scanning QR code
+Route::get('/scan', function () {
+    return view('qrScanner.scan_qr_code');
+});
+
+Route::post('/scan', function (Request $request) {
+    $data = $request->input('data');
+    // Process the scanned data (e.g., save to database)
+    return response()->json(['success' => true]);
+})->name('process-scanned-data');

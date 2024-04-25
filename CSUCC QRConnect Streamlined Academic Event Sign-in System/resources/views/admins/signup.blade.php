@@ -34,6 +34,13 @@
         </div>
 
         <div>
+            <input type="password" name="password_confirmation" placeholder="Confirm Password" value="{{ old('password_confirmation') }}">
+            @error('password_confirmation')
+                <div>{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div>
             <label for="valid_id_image">Upload Valid School CSUCC ID for Verification</label>
             <input type="file" name="valid_school_id" id="valid_id_image">
             @error('valid_school_id')
@@ -41,7 +48,7 @@
             @enderror
             @if (session()->has('invalid_id'))
                 <div>
-                    <p>{{ session('invalid_id')}}</p>
+                    <p>{{ session('invalid_id') }}</p>
                 </div>
             @endif
         </div>
