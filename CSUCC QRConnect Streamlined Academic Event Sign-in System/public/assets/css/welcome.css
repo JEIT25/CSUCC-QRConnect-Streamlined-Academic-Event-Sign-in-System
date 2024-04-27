@@ -1,3 +1,13 @@
-.navbar{
+/* * {
+     font-family: "Simonetta", serif;
+} */
+
+
+.bg-darkblue{
     background-color: rgb(94, 118, 145);
+
+}
+
+.text-darkerblue{
+    color: #001524;
 }
