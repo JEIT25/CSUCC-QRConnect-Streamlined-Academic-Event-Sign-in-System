@@ -22,5 +22,6 @@ class Event extends Model
         'description' ,
         'location',
         "start_date_time" ,
+        "profile_image"
     ];
 }

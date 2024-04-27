@@ -2,21 +2,27 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AttendeeController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EventAttendeeController;
 use App\Http\Controllers\EventController;
-use Illuminate\Http\Request;
+use App\Http\Middleware\EnsureEventIndexShowRoute;
+use App\Http\Middleware\EnsureEventShowRoute;
+use App\Http\Middleware\EnsureResetPassword;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ForgotPasswordController;
 
 Route::get('/', function () {
-    return 'welcome';
+    return view('welcome');
 })->name('home');
 
-//admin routes
+//!Attendee routes
 Route::resource('attendees', AttendeeController::class)->only([
     'create',
     'store',
     'show'
 ]);
+Route::get('/attendees', function () {
+    return redirect()->route('attendees.create');
+})->name('generate-qr');
 
 
 //!handle new admin creation
@@ -37,20 +43,14 @@ Route::resource("auth", AuthController::class)->only([
     'create',
     'store',
 ]);
+Route::get('/auth', function () {
+    return redirect()->route('auth.create');
+})->name('admins.store'); //handle storing new admin acc
+
 
 Route::get('login', function () {
     return redirect()->route('auth.create');
 })->name('login'); //alias for log-in route
-
-
-//!group of protected  admin(with user account) routes, needs authentication
-Route::middleware('auth')->group(function () {
-    Route::get('admins', [AdminController::class, 'index'])
-        ->name('admins.index'); //homepage for admins that are authenticated
-
-    Route::delete('auth', [AuthController::class, 'destroy'])
-        ->name('auth.destroy'); //handle log-outs, route
-});
 
 //!Forgot password and reset password routes
 Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])
@@ -58,29 +58,39 @@ Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkReques
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
     ->name('forgot.password.post');
 
-Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'resetPassword'])
-    ->name('reset.password');
+Route::post('reset-password', [ForgotPasswordController::class, 'resetPasswordPost'])
+    ->name('reset-password.post')
+    ->middleware(EnsureResetPassword::class);
 
-Route::post('/reset-password', [ForgotPasswordController::class, 'resetPasswordPost'])
-    ->name('reset.password.post');
+Route::get('reset-password/{token}', [ForgotPasswordController::class, 'resetPassword'])
+    ->name('reset-password')
+    ->middleware(EnsureResetPassword::class);
 
+Route::get('/reset-password', function () {
+    return redirect()->route('forgot.password');
+})->name('reset.password');
 
-
-
+//!group of protected  routes, needs authentication
 Route::middleware('auth')->group(function () {
-    //Event routes
+
+    //!admin routes
+    Route::get('admins', [AdminController::class, 'index'])
+        ->name('admins.index'); //homepage for admins that are authenticated
+
+    Route::delete('auth', [AuthController::class, 'destroy'])
+        ->name('auth.destroy'); //handle log-outs, route
+
+    //!Event routes
     Route::resource("events", EventController::class);
+
+    Route::resource("events", EventController::class)->only(['edit'])
+        ->middleware(EnsureEventIndexShowRoute::class);
+
     Route::get('events/create', [EventController::class, 'create'])->name('events.create');
+
+    Route::resource("event-attendees", EventAttendeeController::class);
+
+    Route::resource("event-attendees", EventAttendeeController::class)->only(['create', 'index'])
+        ->middleware(EnsureEventShowRoute::class); //middle ware that ensure that the qr scanner and show attendance record routes is access only through the event.show route
 });
 
-
-// Route for scanning QR code
-Route::get('/scan', function () {
-    return view('qrScanner.scan_qr_code');
-});
-
-Route::post('/scan', function (Request $request) {
-    $data = $request->input('data');
-    // Process the scanned data (e.g., save to database)
-    return response()->json(['success' => true]);
-})->name('process-scanned-data');

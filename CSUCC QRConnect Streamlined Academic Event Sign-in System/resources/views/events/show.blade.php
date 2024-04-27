@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <img src="{{ asset($event->profile_image) }}" style="max-width: 40%;"/>
     <h2>{{ $event->name }}</h2>
     <h2>{{ $event->description }}</h2>
     <h2>{{ $event->location }}</h2>
@@ -12,3 +13,8 @@
     @method("DELETE")
     <button type="submit">Delete</button>
 </form>
+
+<a href="{{route('event-attendees.create',['event_id' => $event->id])}}"><button>Qr Code Record Attendance</button></a>
+
+<a href="{{route('event-attendees.index',['event_id' => $event->id])}}">Show Attendance Records</a>
+

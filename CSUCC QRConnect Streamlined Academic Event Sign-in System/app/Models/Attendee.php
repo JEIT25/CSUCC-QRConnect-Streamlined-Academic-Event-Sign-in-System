@@ -12,6 +12,11 @@ class Attendee extends Model
     {
         return $this->belongsToMany(Event::class);
     }
+
+    public function eventAttendees()
+    {
+        return $this->hasMany(Event_Attendee::class);
+    }
     protected $fillable = [
         'type',
         'fname',

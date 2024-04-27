@@ -11,6 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('event_attendees', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger("event_id");
             $table->unsignedBigInteger("attendee_id");
             $table->dateTime('checkin')->default(now());

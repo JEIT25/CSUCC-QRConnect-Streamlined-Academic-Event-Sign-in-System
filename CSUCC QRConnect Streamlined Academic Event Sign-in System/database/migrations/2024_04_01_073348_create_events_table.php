@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string("description");
             $table->string("location");
             $table->dateTime("start_date_time");
+            $table->string("profile_image");
             $table->timestamps();
             $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade");
         });

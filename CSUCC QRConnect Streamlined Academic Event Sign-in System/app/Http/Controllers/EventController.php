@@ -7,6 +7,7 @@ use DateTime;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -41,6 +42,7 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
         // Validate the incoming request data
@@ -48,21 +50,31 @@ class EventController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'location' => 'required|string|max:255',
-            "start_date_time" => 'required|date_format:Y-m-d\TH:i:s',
+            'start_date_time' => 'required|date_format:Y-m-d\TH:i:s',
+            'profile_image' => 'image|mimes:jpeg,png,jpg,gif|max:6048', // Add validation for profile image
         ]);
 
+        // Store the uploaded profile image
+        if ($request->hasFile('profile_image')) {
+            $image = $request->file('profile_image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/event_profile_images', $imageName);
+            $profileImagePath = 'storage/event_profile_images/' . $imageName;
+        } else {
+            $profileImagePath = null;
+        }
 
         $dateTime = new DateTime($request->start_date_time);
-
         // Format the DateTime object to the desired format
         $formattedDateTime = $dateTime->format('Y-m-d H:i:s');
 
-        // Create a new event instance
+        // Create a new event instance with profile image path
         $event = new Event([
             'name' => $request->name,
             'description' => $request->description,
             'location' => $request->location,
-            'start_date_time' => $formattedDateTime
+            'start_date_time' => $formattedDateTime,
+            'profile_image' => $profileImagePath, // Add profile image path to event attributes
         ]);
 
         // Associate the event with the authenticated user
@@ -73,8 +85,8 @@ class EventController extends Controller
 
         // Redirect the user to a relevant page (e.g., show the newly created event)
         return redirect()->route('events.show', $event->id)->with('success', 'Event created successfully!');
-
     }
+
 
     /**
      * Display the specified resource.
@@ -166,13 +178,18 @@ class EventController extends Controller
      */
     public function destroy($id)
     {
-        // Find the event by its ID
+        // Find the event by ID
         $event = Event::findOrFail($id);
+
+        // Delete the profile image if it exists
+        if ($event->profile_image) {
+            Storage::delete('public/event_profile_images/' . basename($event->profile_image));
+        }
 
         // Delete the event
         $event->delete();
 
-        // Redirect the user to a relevant page (e.g., event list page)
+        // Redirect back to a relevant page
         return redirect()->route('events.index')->with('success', 'Event deleted successfully!');
     }
 

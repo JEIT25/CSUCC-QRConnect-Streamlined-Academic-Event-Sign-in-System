@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <form id="myForm" action="{{ route('events.store') }}" method="POST">
+    <form id="myForm" action="{{ route('events.store') }}" method="POST" enctype="multipart/form-data">
         {{-- Add cross-site request forgery (CSRF) token --}}
         @csrf
         <div>
@@ -31,6 +31,14 @@
             <label for="start_date_time">Start Date and Time</label>
             <input type="datetime-local" name="start_date_time" value="{{ old('start_date_time', date('Y-m-d\TH:i:s')) }}" id="start_date_time">
             @error('start_date_time')
+                <div>{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div>
+            <label for="profile_image">Event Profile Image</label>
+            <input type="file" name="profile_image">
+            @error('profile_image')
                 <div>{{ $message }}</div>
             @enderror
         </div>

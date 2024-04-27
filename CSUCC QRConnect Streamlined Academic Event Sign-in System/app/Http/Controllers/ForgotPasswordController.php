@@ -63,7 +63,7 @@ class ForgotPasswordController extends Controller
             ])->first();
 
         if (!$updated_password) {
-            dd($updated_password, $request->token);
+            // dd($updated_password, $request->token);
             return redirect()->route('reset.password',['token'=>$request->token])->with('error', 'invalid');
         }
 
