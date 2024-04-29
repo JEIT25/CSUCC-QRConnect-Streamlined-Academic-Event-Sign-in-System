@@ -9,6 +9,7 @@ class EnsureEventIndexShowRoute
 {
     public function handle(Request $request, Closure $next)
     {
+
         // Check if the referer header exists
         if ($request->hasHeader('referer')) {
             // Extract the referer URL
@@ -19,15 +20,14 @@ class EnsureEventIndexShowRoute
 
             // Extract the route name from the subRequest
             $routeName = app('router')->getRoutes()->match($subRequest)->getName();
-
             // Compare the extracted route name with the expected route name
-            if ($routeName !== 'events.show' || $routeName !== 'events.index') {
+            if ( $routeName !== 'events.index' && $routeName !== 'events.show') {
                 // Redirect back if the request did not originate from the event show route
-                return redirect()->route('events.index')->with('error', 'Access denied.');
+                return redirect()->back()->with('error', 'Access denied.');
             }
         } else {
             // Handle case when referer header is not present
-            return redirect()->route('events.index')->with('error', 'Access denied.');
+            return redirect()->back()->with('error', 'Access denied.');
         }
 
         return $next($request);

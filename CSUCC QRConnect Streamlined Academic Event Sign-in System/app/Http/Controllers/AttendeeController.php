@@ -141,13 +141,18 @@ class AttendeeController extends Controller
 
 
         //Generate QR Code for new attendee
-        $new_attendee_qrCode = QrCode::size(200)
-            ->backgroundColor(255, 187, 60)
-            ->color(0, 0, 0)
-            ->margin(1)
-            ->generate(
+        $new_attendee_qrCode = QrCode::margin(5)
+        ->size(250)
+        ->generate(
                 $new_attendee->unique_code
             );
+        // $new_attendee_qrCode = QrCode::size(200)
+        //     ->backgroundColor(00,00,00)
+        //     ->color(0, 0, 0)
+        //     ->margin(1)
+        //     ->generate(
+        //         $new_attendee->unique_code
+        //     );
 
         //store new qr code in server storage (optional)
         // $qr_fileName = $new_attendee->fname . $new_attendee->lname . time() . 'svg';

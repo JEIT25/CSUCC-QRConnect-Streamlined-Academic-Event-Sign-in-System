@@ -2,12 +2,76 @@
      font-family: "Simonetta", serif;
 } */
 
+a {
+    cursor: pointer;
+}
 
 .bg-darkblue{
     background-color: rgb(94, 118, 145);
 
 }
 
+#p-tags{
+    max-width: 68%;
+     word-wrap: break-word;
+}
+
 .text-darkerblue{
     color: #001524;
+}
+
+@media (max-width: 1400px) {
+    #h1{
+        font-size: 3.5rem;
+    }
+
+    #h2{
+        font-size: 2.8rem;
+    }
+
+    #p-tags {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 1030px) {
+    #h1{
+        font-size: 3.0rem;
+    }
+
+    #h2{
+        font-size: 2.3rem;
+    }
+
+        #p-tags {
+        font-size: 0.7rem;
+    }
+
+}
+
+@media (max-width: 860px) {
+
+    #main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    #h1{
+        font-size: 3.2rem;
+    }
+
+    #h2{
+        font-size: 2.5rem;
+    }
+
+    #p-tags {
+        max-width: 80%;
+        text-align: center;
+    }
+
+    #gif {
+        margin-top: 10rem;
+    }
 }

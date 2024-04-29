@@ -85,16 +85,16 @@ class AdminController extends Controller
                     //! dd($text); TEST ID PICTURE WITH HIGH LIGHT PICTURE IF WHAT IS THE TEXT RESULT
                 } catch (UnsuccessfulCommandException $e) {
                     // Handle the unsuccessful command exception
-                    return redirect()->route('admins.signup')->with('invalid_id', 'School ID validation failed, unclear/credentials does not match/invalid ID!')->withInput();
+                    return redirect()->back()->with('valid_school_id', 'School ID validation failed,unclear/credentials does not match!')->withInput();
                 }
 
                 // Check if the OCR text contains both the first name and last name, and school name
                 if (
-                    Str::contains(strtolower($text), strtolower($request->input('fname'))) ||
-                    Str::contains(strtolower($text), strtolower($request->input('lname'))) ||
+                    Str::contains(strtolower($text), strtolower($request->input('fname'))) &&
+                    Str::contains(strtolower($text), strtolower($request->input('lname'))) &&
                     Str::contains(strtolower($text), strtolower("Caraga State University Cabadbaran Campus")) ||
                     Str::contains(strtolower($text), strtolower("CSUCC")) ||
-                    Str::contains(strtolower($text), strtolower("csuce carsyu edu ph")) ||
+                    Str::contains(strtolower($text), strtolower("csuce carsyu edu ph")) &&
                     Str::contains(strtolower($text), strtolower("Cabadbaran Campus"))
                 ) {
                     // Both first name , last name, school name are found in the OCR text
@@ -107,10 +107,10 @@ class AdminController extends Controller
                 } else {
                     // Either first name or last name is not found in the OCR text
                     // Redirect back to the register route
-                    return redirect()->route('admins.signup')->with('invalid_id', 'School ID validation failed, unclear/credentials does not match/invalid ID!')->withInput();
+                    return redirect()->back()->with('valid_school_id', 'School ID validation failed,unclear/credentials does not match!')->withInput();
                 }
             } else {
-                return redirect()->route('admins.signup')->with('invalid_id', 'Valid ID validation failed, ID format not accepted')->withInput();
+                return redirect()->back()->with('valid_school_id', 'Valid ID validation failed, ID format not accepted')->withInput();
             }
 
             //handle saveing new admin acc to database

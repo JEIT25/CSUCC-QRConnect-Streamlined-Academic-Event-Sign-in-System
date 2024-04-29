@@ -45,7 +45,7 @@ Route::resource("auth", AuthController::class)->only([
 ]);
 Route::get('/auth', function () {
     return redirect()->route('auth.create');
-})->name('admins.store'); //handle storing new admin acc
+})->name('admins.login'); //handle storing new admin acc
 
 
 Route::get('login', function () {
@@ -82,9 +82,6 @@ Route::middleware('auth')->group(function () {
 
     //!Event routes
     Route::resource("events", EventController::class);
-
-    Route::resource("events", EventController::class)->only(['edit'])
-        ->middleware(EnsureEventIndexShowRoute::class);
 
     Route::get('events/create', [EventController::class, 'create'])->name('events.create');
 

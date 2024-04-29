@@ -13,7 +13,11 @@ class AuthController extends Controller
      */
     public function create()
     {
-        return view('admins.auth.create'); //sign-in route
+        if (auth()->check()) {
+            return redirect()->route('admins.index'); // Redirect to the admin dashboard route
+        }
+
+        return view('admins.auth.create'); // Display the sign-in route
     }
 
     /**
@@ -28,10 +32,10 @@ class AuthController extends Controller
 
         $credentials = $request->only('email', 'password');
         $remember = $request->filled('remember');
-        if (Auth::attempt($credentials,$remember)) {
+        if (Auth::attempt($credentials, $remember)) {
             return redirect()->intended('admins');
         } else {
-            return redirect()->back()->with('error', 'invalid credentials')->withInput();
+            return redirect()->back()->with('error', 'Invalid credentials')->withInput();
         }
     }
 

@@ -19,15 +19,18 @@ class EventController extends Controller
         // Retrieve the authenticated user
         $user = auth()->user();
         $userId = auth()->id();
+
         // Check if the user exists
         if ($user) {
-            $events = User::find($userId)->events()->get();
+            // Retrieve paginated events for the authenticated user
+            $events = User::find($userId)->events()->paginate(10); // Change 10 to your desired pagination limit
             // Pass the $events variable to the view
             return view('events.index')->with(['events' => $events]);
         } else {
             // Handle the case where the user is not authenticated
             return redirect()->route('login')->with('error', 'You must be logged in to view events.');
         }
+
     }
 
 
@@ -152,7 +155,7 @@ class EventController extends Controller
             'location' => 'required|string|max:255',
             'start_date_time' => 'required|date_format:Y-m-d\TH:i:s',
         ]);
-
+        
         // Create a DateTime object from the start_date_time input
         $dateTime = new DateTime($request->start_date_time);
 

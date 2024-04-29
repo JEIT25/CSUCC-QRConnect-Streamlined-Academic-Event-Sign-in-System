@@ -43,7 +43,6 @@ class EventAttendeeController extends Controller
             // Search for the attendee based on the unique code from the QR code
             $attendee = Attendee::where('unique_code', $request->qr_code)->first();
 
-
             if (!$attendee) {
                 // Attendee not found
                 return response()->json([
@@ -62,6 +61,18 @@ class EventAttendeeController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Attendee is already registered for this event.',
+                    'attendee' => [
+                        'type' => $attendee->type,
+                        'fname' => $attendee->fname,
+                        'lname' => $attendee->lname,
+                        'birth_date' => $attendee->birth_date,
+                        'country' => $attendee->country,
+                        'occupational_status' => $attendee->occupational_status,
+                        'school_name' => $attendee->school_name,
+                        'employer' => $attendee->employer,
+                        'work_specialization' => $attendee->work_specialization,
+                        // Add more attendee information as needed
+                    ]
                 ]);
             }
 
@@ -77,6 +88,7 @@ class EventAttendeeController extends Controller
             // Attendee found and registered for the event, return the attendee's information
             return response()->json([
                 'success' => true,
+                 'message' => "Event Attendee Record, Generated SuccessFully",
                 'attendee' => [
                     'type' => $attendee->type,
                     'fname' => $attendee->fname,
