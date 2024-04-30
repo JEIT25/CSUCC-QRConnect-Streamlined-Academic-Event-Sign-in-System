@@ -27,7 +27,8 @@ class User extends Authenticatable
         'fname',
         'email',
         'password',
-        'valid_school_id'
+        'valid_school_id_front',
+        'valid_school_id_back'
     ];
 
     /**

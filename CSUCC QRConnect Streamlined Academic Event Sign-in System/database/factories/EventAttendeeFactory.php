@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Attendee;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,9 @@ class EventAttendeeFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'attendee_id' => Attendee::factory(),
+            'event_id' => 1, // Set event_id to 1
+            'checkin' => fake()->dateTimeThisYear() // Generate random boolean value for checkin
         ];
     }
 }

@@ -51,7 +51,7 @@ class EventController extends Controller
         // Validate the incoming request data
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string|max:5000',
             'location' => 'required|string|max:255',
             'start_date_time' => 'required|date_format:Y-m-d\TH:i:s',
             'profile_image' => 'image|mimes:jpeg,png,jpg,gif|max:6048', // Add validation for profile image
@@ -151,11 +151,11 @@ class EventController extends Controller
         // Validate the request data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string|max:5000',
             'location' => 'required|string|max:255',
             'start_date_time' => 'required|date_format:Y-m-d\TH:i:s',
         ]);
-        
+
         // Create a DateTime object from the start_date_time input
         $dateTime = new DateTime($request->start_date_time);
 

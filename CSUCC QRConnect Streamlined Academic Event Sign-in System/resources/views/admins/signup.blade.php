@@ -87,12 +87,34 @@
                             </div>
                             <div class="form-group">
                                 <div class="pos-r">
-                                    <input id="valid_school_id" type="file" name="valid_school_id"
+                                    <input id="valid_school_id_front" type="file" name="valid_school_id_front"
                                         class="valid_school_id form-control">
                                     <i class="fa fa-file"></i>
-                                    @error('valid_school_id')
+                                    <label for="valid_school_id_back">Upload CSUCC School ID Front Part</label>
+                                    @error('valid_school_id_front')
                                         <div class="bg-danger my-2">{{ $message }}</div>
                                     @enderror
+                                    @if (session('valid_school_id_front'))
+                                        <div class="alert alert-danger text-center mt-2">
+                                            {{ session('valid_school_id_front') }}
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="pos-r">
+                                    <input id="valid_school_id_back" type="file" name="valid_school_id_back"
+                                        class="valid_school_id form-control">
+                                    <i class="fa fa-file"></i>
+                                    <label for="valid_school_id_back">Upload CSUCC School ID Back Part</label>
+                                    @error('valid_school_id_back')
+                                        <div class="bg-danger my-2">{{ $message }}</div>
+                                    @enderror
+                                    @if (session('valid_school_id_back'))
+                                        <div class="alert alert-danger text-center mt-2">
+                                            {{ session('valid_school_id_back') }}
+                                        </div>
+                                    @endif
                                     @if (session('valid_school_id'))
                                         <div class="alert alert-danger text-center mt-2">
                                             {{ session('valid_school_id') }}

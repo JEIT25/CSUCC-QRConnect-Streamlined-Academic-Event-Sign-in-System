@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="card mt-4 ms-auto me-auto d-flex flex-column align-item-center justify-content-center" style="width: 60%;">
-        <img src="{{ asset($event->profile_image) }}" class="img-fluid card-img-top ms-auto me-auto " alt="..."
+<div class="container">
+        <div class="card mt-4 ms-auto me-auto d-flex flex-column align-item-center justify-content-center" style="width:100%;">
+        <img src="{{ asset($event->profile_image) }}" class="img-fluid card-img-top ms-auto me-auto mt-5" alt="..."
             style="width: 50%;">
-        <div class="card-body text-center">
+        <div class="card-body text-center mt-5">
             <h5 class="card-title">{{ $event->name }}</h5>
         </div>
         <ul class="list-group list-group-flush">
@@ -25,4 +26,5 @@
             <a class="btn btn-primary" href="{{ route('event-attendees.index', ['event_id' => $event->id]) }}">Show
                 Attendance Records</a>
         </div>
+</div>
     @endsection

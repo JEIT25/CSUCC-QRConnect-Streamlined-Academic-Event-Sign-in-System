@@ -106,6 +106,8 @@ class AttendeeController extends Controller
                     // Perform OCR and get the text result
                     $text = $ocr->run();
 
+
+
                 } catch (UnsuccessfulCommandException $e) {
                     // Handle the unsuccessful command exception
                     return redirect()->route('attendees.create')->with('invalid_id', 'Valid ID validation failed, unclear/credentials does not match/invalid ID!')->withInput();
