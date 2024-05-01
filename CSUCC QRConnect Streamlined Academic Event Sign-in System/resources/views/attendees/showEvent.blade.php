@@ -20,15 +20,5 @@
                     <p class="card-text"><span class="fw-bold">Start date and time:</span> {{ $event->start_date_time }}</p>
                 </li>
             </ul>
-            <div class="card-footer d-flex justify-content-around">
-                <a class="btn btn-primary" href="{{ route('event-attendees.checkin', ['event_id' => $event->id]) }}">Attendance Check In</a>
-
-                <a class="btn btn-primary" href="{{ route('event-attendees.checkout', ['event_id' => $event->id]) }}">Attendance Check Out</a>
-
-                <a class="btn btn-primary" href="{{ route('event-attendees.index', ['event_id' => $event->id]) }}">Show
-                    Attendance Records</a>
-
-                <a class="btn btn-primary" href='#'>Export Attendance Records</a>
-            </div>
         </div>
     @endsection

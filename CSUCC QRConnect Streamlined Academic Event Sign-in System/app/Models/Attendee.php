@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Attendee extends Model
 {
     use HasFactory;
-    
+
     public function events()
     {
         return $this->belongsToMany(Event::class);
@@ -23,7 +23,6 @@ class Attendee extends Model
         'fname',
         'lname',
         'birth_date',
-        'country',
         'occupational_status',
         'school_name',
         'employer',

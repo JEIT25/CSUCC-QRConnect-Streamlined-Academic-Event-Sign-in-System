@@ -24,15 +24,20 @@ class EventAttendeeController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function createCheckIn()
     {
-        return view('event-attendees.create');
+        return view('event-attendees.checkin');
+    }
+
+    public function createCheckout()
+    {
+        return view('event-attendees.checkout');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function checkIn(Request $request)
     {
         try {
             // Validate the incoming request data (assuming the QR code contains a valid unique code)
@@ -56,60 +61,116 @@ class EventAttendeeController extends Controller
                 ->where('attendee_id', $attendee->id)
                 ->first();
 
-            if ($existingEventAttendee) {
-                // Attendee already registered for the event
+            if (!$existingEventAttendee) {
+                // Attendee not registered for the event, create a new record
+                $eventAttendee = new Event_Attendee();
+                $eventAttendee->event_id = $request->event_id; // Replace $request->event_id with the actual event ID
+                $eventAttendee->attendee_id = $attendee->id;
+                $eventAttendee->checkin = now(); // Set current datetime as check-in time
+                $eventAttendee->save();
+
+                // Attendee successfully registered and checked in for the event
                 return response()->json([
-                    'success' => false,
-                    'message' => 'Attendee is already registered for this event.',
-                    'attendee' => [
-                        'type' => $attendee->type,
-                        'fname' => $attendee->fname,
-                        'lname' => $attendee->lname,
-                        'birth_date' => $attendee->birth_date,
-                        'country' => $attendee->country,
-                        'occupational_status' => $attendee->occupational_status,
-                        'school_name' => $attendee->school_name,
-                        'employer' => $attendee->employer,
-                        'work_specialization' => $attendee->work_specialization,
-                        // Add more attendee information as needed
-                    ]
+                    'success' => true,
+                    'message' => 'Attendee registered and checked in successfully.',
                 ]);
             }
 
+            // Check if the attendee has already checked in
+            if ($existingEventAttendee->checkin) {
+                // Attendee already checked in
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Attendee has already checked in for this event.',
+                ]);
+            }
 
+            // Update the check-in time
+            $existingEventAttendee->checkin = now();
+            $existingEventAttendee->save();
 
-            // Create a new Event_Attendee record
-            $eventAttendee = new Event_Attendee();
-            $eventAttendee->event_id = $request->event_id; // Replace $request->event_id with the actual event ID
-            $eventAttendee->attendee_id = $attendee->id;
-            $eventAttendee->checkin = now(); // Set current datetime as check-in time
-            $eventAttendee->save();
-
-            // Attendee found and registered for the event, return the attendee's information
+            // Attendee successfully checked in
             return response()->json([
                 'success' => true,
-                 'message' => "Event Attendee Record, Generated SuccessFully",
-                'attendee' => [
-                    'type' => $attendee->type,
-                    'fname' => $attendee->fname,
-                    'lname' => $attendee->lname,
-                    'birth_date' => $attendee->birth_date,
-                    'country' => $attendee->country,
-                    'occupational_status' => $attendee->occupational_status,
-                    'school_name' => $attendee->school_name,
-                    'employer' => $attendee->employer,
-                    'work_specialization' => $attendee->work_specialization,
-                    // Add more attendee information as needed
-                ]
+                'message' => 'Attendee checked in successfully.',
             ]);
+
         } catch (\Exception $e) {
-            // Handle other exceptions or errors
+            // Handle exceptions or errors
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),
             ]);
         }
     }
+
+    public function checkOut(Request $request)
+    {
+        try {
+            // Validate the incoming request data (assuming the QR code contains a valid unique code)
+            $request->validate([
+                'qr_code' => 'required|string|max:255', // Add validation rules for the QR code
+            ]);
+
+            // Search for the attendee based on the unique code from the QR code
+            $attendee = Attendee::where('unique_code', $request->qr_code)->first();
+
+            if (!$attendee) {
+                // Attendee not found
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Attendee not found.',
+                ]);
+            }
+
+            // Check if the attendee is already registered for the event
+            $existingEventAttendee = Event_Attendee::where('event_id', $request->event_id)
+                ->where('attendee_id', $attendee->id)
+                ->first();
+
+            if (!$existingEventAttendee) {
+                // Attendee not registered for the event, create a new record
+                $eventAttendee = new Event_Attendee();
+                $eventAttendee->event_id = $request->event_id; // Replace $request->event_id with the actual event ID
+                $eventAttendee->attendee_id = $attendee->id;
+                $eventAttendee->checkout = now(); // Set current datetime as checkout time
+                $eventAttendee->save();
+
+                // Attendee successfully registered and checked out for the event
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Attendee registered and checked out successfully.',
+                ]);
+            }
+
+            // Check if the attendee has already checked out
+            if ($existingEventAttendee->checkout) {
+                // Attendee already checked out
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Attendee has already checked out for this event.',
+                ]);
+            }
+
+            // Update the checkout time
+            $existingEventAttendee->checkout = now();
+            $existingEventAttendee->save();
+
+            // Attendee successfully checked out
+            return response()->json([
+                'success' => true,
+                'message' => 'Attendee checked out successfully.',
+            ]);
+
+        } catch (\Exception $e) {
+            // Handle exceptions or errors
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
 
     /**
      * Display the specified resource.
@@ -155,3 +216,5 @@ class EventAttendeeController extends Controller
         }
     }
 }
+
+

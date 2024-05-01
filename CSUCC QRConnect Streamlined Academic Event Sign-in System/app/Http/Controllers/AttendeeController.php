@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 use App\Models\Attendee;
 use Illuminate\Http\Request;
 use SimpleSoftwareIO\QrCode\Facades\QrCode; //qr code generator package
-use Illuminate\Support\Facades\Storage; //store qr code
 use thiagoalessio\TesseractOCR\TesseractOCR; // orcr text extraction from image
 use Illuminate\Validation\ValidationException; //for handling validatione exception
 use Illuminate\Database\UniqueConstraintViolationException;
@@ -60,7 +59,6 @@ class AttendeeController extends Controller
                 'fname' => 'required|string|max:255',
                 'lname' => 'required|string|max:255',
                 'birth_date' => 'required|date',
-                'country' => 'required|string|max:255',
                 'occupational_status' => 'required|string|max:255',
                 'school_name' => 'nullable|string|max:255',
                 'employer' => 'nullable|string|max:255',
@@ -83,7 +81,6 @@ class AttendeeController extends Controller
         $new_attendee->fname = $validatedData['fname'];
         $new_attendee->lname = $validatedData['lname'];
         $new_attendee->birth_date = $validatedData['birth_date'];
-        $new_attendee->country = $validatedData['country'];
         $new_attendee->occupational_status = $validatedData['occupational_status'];
         $new_attendee->school_name = $validatedData['school_name'];
         $new_attendee->employer = $validatedData['employer'];

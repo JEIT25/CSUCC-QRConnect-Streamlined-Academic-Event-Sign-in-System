@@ -4,8 +4,7 @@
     <nav class="bg-darkblue navbar-expand-lg navbar">
         <div class="container-fluid">
             <a class="text-warning fw-bold navbar-brand ms-5" href="#">
-                <img src="{{ asset('assets/images/qr-logo.png') }}" alt="Logo" width="30" height="24"
-                    class="d-inline-block align-text-center">
+                <img src="{{ asset('assets/images/qr-logo.png') }}" alt="Logo" width="30" height="24"class="d-inline-block align-text-center">
                 CSUCC QRConnect
             </a>
             <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -60,7 +59,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="#">See Available Events</a></li>
+                        <li><a class="dropdown-item" href="{{route('attendees.events.list')}}">See Available Events</a></li>
                     </ul>
                 </div>
 
@@ -70,7 +69,7 @@
                         Admin
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Log In</a></li>
+                        <li><a class="dropdown-item" href="{{route('login')}}">Log In</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
+
 class EventController extends Controller
 {
     /**
@@ -23,7 +24,7 @@ class EventController extends Controller
         // Check if the user exists
         if ($user) {
             // Retrieve paginated events for the authenticated user
-            $events = User::find($userId)->events()->paginate(10); // Change 10 to your desired pagination limit
+            $events = User::find($userId)->events()->paginate(10);
             // Pass the $events variable to the view
             return view('events.index')->with(['events' => $events]);
         } else {

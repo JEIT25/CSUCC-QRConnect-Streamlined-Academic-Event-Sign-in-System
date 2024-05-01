@@ -22,12 +22,10 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card d-flex flex-column justify-content-center">
-                    <div class="card-header text-center"><h1 class="heading-1">My Events</h1></div>
-                    <div class="card-footer d-flex justify-content-center align-items-center">
-                        <form action="{{ route('events.create') }}" method="GET">
-                            <button type="submit" class="btn btn-primary">Create new event</button>
-                        </form>
-                    </div>
+                    <div class="card-header text-center"><h1 class="heading-1">Available Events</h1></div>
+                    @if (session('error'))
+                        {{ session('error') }}
+                    @endif
 
                     <div class="card-body">
                         <ol>
@@ -53,18 +51,9 @@
                                     @endphp
                                     <br>
                                     <div class="container d-flex align-item-center justify-content-start">
-                                        <a class="me-3 mt-1" href="{{ route('events.show', ['event' => $event->id]) }}">
+                                        <a class="me-3 mt-1" href="{{ route('attendees.show.event', ['id' => $event->id]) }}">
                                             <button class="btn btn-primary">Show event</button>
                                         </a>
-                                        <a class="me-3 mt-1" href="{{ route('events.edit', ['event' => $event->id]) }}">
-                                            <button class="btn btn-primary">Edit event</button>
-                                        </a>
-                                        <form class="me-3 mt-1" action="{{ route('events.destroy', ['event' => $event->id]) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-primary">Delete event</button>
-                                        </form>
                                     </div>
                                 </li>
                             @empty

@@ -7,6 +7,8 @@ use App\Http\Controllers\EventController;
 use App\Http\Middleware\EnsureEventIndexShowRoute;
 use App\Http\Middleware\EnsureEventShowRoute;
 use App\Http\Middleware\EnsureResetPassword;
+use App\Models\Event;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ForgotPasswordController;
 
@@ -15,14 +17,32 @@ Route::get('/', function () {
 })->name('home');
 
 //!Attendee routes
-Route::resource('attendees', AttendeeController::class)->only([
-    'create',
-    'store',
-    'show'
-]);
 Route::get('/attendees', function () {
     return redirect()->route('attendees.create');
 })->name('generate-qr');
+
+route::get('/attendees/events-list/{id}', function ($id) {
+    $event = Event::findOrFail($id);
+    return view('attendees.showEvent', ['event' => $event]);
+})->name('attendees.show.event');
+
+route::get('/attendees/events-list', function () {
+    $startDate = Carbon::now(); // or any specific start date you want to filter events from
+
+    // Retrieve all events where the start date time is greater than or equal to the specified start date
+    $events = Event::where('start_date_time', '>=', $startDate)
+        ->paginate(10);
+
+    // Pass the $events variable to the view
+    return view('attendees.events')->with(['events' => $events]);//! FIX THIS ERROR LATER
+})->name('attendees.events.list');
+
+Route::resource('attendees', AttendeeController::class)->only([
+    'create',
+    'store',
+    'show',
+    'events'
+]);
 
 
 //!handle new admin creation
@@ -83,11 +103,24 @@ Route::middleware('auth')->group(function () {
     //!Event routes
     Route::resource("events", EventController::class);
 
+    // Route::get('events/export-pdf', [EventController::class, 'exportPdf'])->name('events.exportPdf');
+
+
     Route::get('events/create', [EventController::class, 'create'])->name('events.create');
 
-    Route::resource("event-attendees", EventAttendeeController::class);
+    //route for create check in record
+    Route::get('event-attendees/checkin', [EventAttendeeController::class, 'createCheckIn'])->name('event-attendees.checkin')->middleware(EnsureEventShowRoute::class);
 
-    Route::resource("event-attendees", EventAttendeeController::class)->only(['create', 'index'])
+    //route for create check out record
+    Route::get('event-attendees/checkout', [EventAttendeeController::class, 'createCheckOut'])->name('event-attendees.checkout')->middleware(EnsureEventShowRoute::class);
+
+    // Route for checking in an attendee
+    Route::post('event-attendees/checkin', [EventAttendeeController::class, 'checkIn',])->name('event-attendees.checkin')->middleware(EnsureEventShowRoute::class);
+
+    // Route for checking out an attendee
+    Route::post('event-attendees/checkout', [EventAttendeeController::class, 'checkOut'])->name('event-attendees.checkout')->middleware(EnsureEventShowRoute::class);
+
+    Route::resource("event-attendees", EventAttendeeController::class)->only(['index','destroy'])
         ->middleware(EnsureEventShowRoute::class); //middle ware that ensure that the qr scanner and show attendance record routes is access only through the event.show route
 });
 

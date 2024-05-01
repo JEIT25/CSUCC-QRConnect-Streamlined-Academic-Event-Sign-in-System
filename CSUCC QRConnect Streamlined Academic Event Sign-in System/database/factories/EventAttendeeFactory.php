@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Attendee;
+use App\Models\Event_Attendee;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -10,16 +11,18 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class EventAttendeeFactory extends Factory
 {
+    protected $model = Event_Attendee::class;
     /**
      * Define the model's default state.
+     *
      *
      * @return array<string, mixed>
      */
     public function definition(): array
     {
         return [
-            'attendee_id' => Attendee::factory(),
-            'event_id' => 1, // Set event_id to 1
+            'attendee_id' => 10,
+            'event_id' => 11, // Set event_id to 1
             'checkin' => fake()->dateTimeThisYear() // Generate random boolean value for checkin
         ];
     }

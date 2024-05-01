@@ -94,8 +94,6 @@ class AdminController extends Controller
                     $textFront = $ocr1->run();
                     $textBack = $ocr2->run();
 
-                    // // Return the OCR result
-                    // return dd($textFront,$textBack);
                     //! dd($text); TEST ID PICTURE WITH HIGH LIGHT PICTURE IF WHAT IS THE TEXT RESULT
                 } catch (UnsuccessfulCommandException $e) {
                     // Handle the unsuccessful command exception

@@ -17,7 +17,6 @@ return new class extends Migration {
             $table->string('lname');
             $table->string('birth_date');
             $table->string('email')->unique();
-            $table->string('country');
             $table->string('occupational_status');
             $table->string('school_name')->nullable();
             $table->string('employer')->nullable();

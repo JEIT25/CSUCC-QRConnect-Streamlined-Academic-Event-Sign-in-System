@@ -14,7 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger("event_id");
             $table->unsignedBigInteger("attendee_id");
-            $table->dateTime('checkin')->default(now());
+            $table->dateTime('checkin')->nullable();
+            $table->dateTime('checkout')->nullable();
 
             $table->foreign("event_id")->references("id")->on("events")->onDelete("cascade");
             $table->foreign("attendee_id")->references("id")->on("attendees")->onDelete("cascade");

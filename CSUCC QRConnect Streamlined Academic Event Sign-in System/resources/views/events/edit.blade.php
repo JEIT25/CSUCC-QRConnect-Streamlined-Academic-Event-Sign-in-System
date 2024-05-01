@@ -18,9 +18,9 @@
             </div>
 
             <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <input type="text" class="form-control" id="description" name="description" placeholder="Description"
-                    value="{{ old('description', $event->description) }}">
+                <label for="description" class="form-label">Event Description</label>
+                <textarea class="form-control" id="description" name="description" rows="3" name="description"
+                    value="{{ old('description', $event->description) }}"></textarea>
                 @error('description')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror

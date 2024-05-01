@@ -28,15 +28,6 @@
         </div>
 
         <div class="mb-3">
-            <label for="country" class="form-label">Country</label>
-            <input type="text" class="form-control" id="country" name="country" placeholder="Country"
-                value="{{ old('country') }}">
-            @error('country')
-                <div class="text-danger">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <div class="mb-3">
             <label for="bday" class="form-label">Birth Date</label>
             <input type="date" class="form-control" id="bday" name="birth_date"
                 value="{{ old('birth_date', date('Y-m-d')) }}">

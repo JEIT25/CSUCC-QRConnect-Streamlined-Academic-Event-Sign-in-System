@@ -82,9 +82,6 @@
                                 <p class="card-text"><span class="fw-bold">Birthdate:</span> ${data.attendee.birth_date}</p>
                             </li>
                             <li class="list-group-item text-capitalize">
-                                <p class="card-text"><span class="fw-bold">Country:</span> ${data.attendee.country}</p>
-                            </li>
-                            <li class="list-group-item text-capitalize">
                                 <p class="card-text"><span class="fw-bold"> Occupational Status:</span> ${data.attendee.occupational_status}</p>
                             </li>
                             <li class="list-group-item text-capitalize">
@@ -126,9 +123,6 @@
                                 <p class="card-text"><span class="fw-bold">Birthdate:</span>NA</p>
                             </li>
                             <li class="list-group-item text-capitalize">
-                                <p class="card-text"><span class="fw-bold">Country:</span>NA</p>
-                            </li>
-                            <li class="list-group-item text-capitalize">
                                 <p class="card-text"><span class="fw-bold"> Occupational Status:</span>NA</p>
                             </li>
                             <li class="list-group-item text-capitalize">
@@ -154,7 +148,7 @@
             document.getElementById('successSound').play();
 
             // Send AJAX request to server
-            fetch('/event-attendees', {
+            fetch('/event-attendees/checkin', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
