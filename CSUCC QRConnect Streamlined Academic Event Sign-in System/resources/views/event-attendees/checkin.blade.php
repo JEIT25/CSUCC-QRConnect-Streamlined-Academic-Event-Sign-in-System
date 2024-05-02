@@ -60,6 +60,20 @@
 
         //function that renders the attendee data
         function renderAttendeeInfo(data, qrCodeMessage) {
+            let checkinDateTime = new Date(data.attendee.checkin);
+
+            // Format the datetime with date and AM/PM indication
+            let formattedCheckinDateTime = checkinDateTime.toLocaleString([], {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                hour12: true
+            });
+
+
             document.getElementById('attendeeInfo').innerHTML = `
                     <div class="card mt-4 ms-auto me-auto d-flex flex-column align-item-center justify-content-center" style="width: 100%;">
                         <div class="card-body text-center">
@@ -67,7 +81,10 @@
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item text-capitalize">
-                                <p class="card-text"><span class="fw-bold">Unique Code:</span></p>
+                                <p class="card-text"><span class="fw-bold">Unique Code: ${qrCodeMessage}</span></p>
+                            </li>
+                            <li class="list-group-item text-capitalize">
+                                <p class="card-text"><span class="fw-bold">Type of Checkin: ${formattedCheckinDateTime} </span></p>
                             </li>
                             <li class="list-group-item text-capitalize">
                                 <p class="card-text"><span class="fw-bold">Type of Attendee:</span> ${data.attendee.type}</p>
@@ -109,6 +126,9 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item text-capitalize">
                                 <p class="card-text"><span class="fw-bold">Unique Code:</span>NA</p>
+                            </li>
+                            <li class="list-group-item text-capitalize">
+                                <p class="card-text"><span class="fw-bold">Type of Checkin: </span>NA</p>
                             </li>
                             <li class="list-group-item text-capitalize">
                                 <p class="card-text"><span class="fw-bold">Type of Attendee:</span>NA</p>
@@ -171,6 +191,9 @@
                         let innerDiv = document.createElement('div');
 
 
+                        //remove dnager class styles of mess div
+                        messDiv.classList.remove('alert', 'alert-danger', 'd-flex', 'align-items-center');
+
                         // Add classes to the div
                         messDiv.classList.add('alert', 'alert-success', 'd-flex', 'align-items-center');
 
@@ -198,7 +221,7 @@
                         // Display attendee information
                         renderAttendeeInfo(data, qrCodeMessage);
                     } else {
-                        if(data.message == "Attendee not found.") {
+                        if (data.message == "Attendee not found.") {
                             flushAttendeeCard();
                         }
                         let messDiv = document.getElementById('message');
@@ -208,6 +231,9 @@
                         // Create a new div element
                         let innerDiv = document.createElement('div');
 
+
+                        //remove the success classes styles from the mess div
+                        messDiv.classList.remove('alert', 'alert-success', 'd-flex', 'align-items-center');
 
                         // Add classes to the div
                         messDiv.classList.add('alert', 'alert-danger', 'd-flex', 'align-items-center');
@@ -232,13 +258,13 @@
                 })
                 .catch(error => {
                     console.log(error);
-                    console.error('Error:', JSON.stringify(error));
+                    console.error('Error:', error);
                 })
                 .finally(() => {
                     // Enable scanner after 5 seconds
                     setTimeout(() => {
                         scannerEnabled = true;
-                    }, 2500);
+                    }, 1500);
                 });
         }
 

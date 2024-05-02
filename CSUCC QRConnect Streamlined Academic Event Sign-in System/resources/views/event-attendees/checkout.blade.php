@@ -16,7 +16,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6" style="border-right: 5px solid #132533">
+            <div class="col-md-6" style="border-right: 5px solid #132533;">
                 <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
                     <div id="reader"></div>
                 </div>
@@ -60,6 +60,20 @@
 
         //function that renders the attendee data
         function renderAttendeeInfo(data, qrCodeMessage) {
+            let checkoutDateTime = new Date(data.attendee.checkout);
+
+            // Format the datetime with date and AM/PM indication
+            let formattedCheckoutDateTime = checkoutDateTime.toLocaleString([], {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                hour12: true
+            });
+
+
             document.getElementById('attendeeInfo').innerHTML = `
                     <div class="card mt-4 ms-auto me-auto d-flex flex-column align-item-center justify-content-center" style="width: 100%;">
                         <div class="card-body text-center">
@@ -67,7 +81,10 @@
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item text-capitalize">
-                                <p class="card-text"><span class="fw-bold">Unique Code:</span></p>
+                                <p class="card-text"><span class="fw-bold">Unique Code: ${qrCodeMessage}</span></p>
+                            </li>
+                            <li class="list-group-item text-capitalize">
+                                <p class="card-text"><span class="fw-bold">Checkout: ${formattedCheckoutDateTime} </span></p>
                             </li>
                             <li class="list-group-item text-capitalize">
                                 <p class="card-text"><span class="fw-bold">Type of Attendee:</span> ${data.attendee.type}</p>
@@ -99,7 +116,6 @@
 
         //SET TO N/A ALL ATTENDEE INFORMATION
         function flushAttendeeCard() {
-            //  document.getElementById('attendeeInfo').innerHTML = '';
             document.getElementById('attendeeInfo').innerHTML = `
                     <div class="card mt-4 ms-auto me-auto d-flex flex-column align-item-center justify-content-center" style="width: 100%;">
                         <div class="card-body text-center">
@@ -109,6 +125,9 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item text-capitalize">
                                 <p class="card-text"><span class="fw-bold">Unique Code:</span>NA</p>
+                            </li>
+                            <li class="list-group-item text-capitalize">
+                                <p class="card-text"><span class="fw-bold">Checkout:</span>NA</p>
                             </li>
                             <li class="list-group-item text-capitalize">
                                 <p class="card-text"><span class="fw-bold">Type of Attendee:</span>NA</p>
@@ -163,6 +182,7 @@
                 .then(data => {
                     if (data.success) {
                         console.log(data.message)
+
                         let messDiv = document.getElementById('message');
 
                         messDiv.innerHTML = '';
@@ -170,6 +190,9 @@
                         // Create a new div element
                         let innerDiv = document.createElement('div');
 
+
+                        //remove dnager class styles of mess div
+                        messDiv.classList.remove('alert', 'alert-danger', 'd-flex', 'align-items-center');
 
                         // Add classes to the div
                         messDiv.classList.add('alert', 'alert-success', 'd-flex', 'align-items-center');
@@ -209,6 +232,9 @@
                         let innerDiv = document.createElement('div');
 
 
+                        //remove the success classes styles from the mess div
+                         messDiv.classList.remove('alert', 'alert-success', 'd-flex', 'align-items-center');
+
                         // Add classes to the div
                         messDiv.classList.add('alert', 'alert-danger', 'd-flex', 'align-items-center');
 
@@ -231,8 +257,9 @@
                     }
                 })
                 .catch(error => {
-                    console.log(error);
-                    console.error('Error:', JSON.stringify(error));
+                    console.error('Error:', error.message);
+                    console.error('Line number:', error.lineNumber);
+                    console.log(eventId)
                 })
                 .finally(() => {
                     // Enable scanner after 5 seconds
@@ -243,7 +270,7 @@
         }
 
         function onScanError(errorMessage) {
-            // Handle scan error
+            console.log("error");
         }
 
         var html5QrcodeScanner = new Html5QrcodeScanner(

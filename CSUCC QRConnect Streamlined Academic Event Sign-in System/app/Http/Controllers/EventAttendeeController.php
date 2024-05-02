@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendee;
 use App\Models\Event_Attendee;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 
 class EventAttendeeController extends Controller
@@ -66,13 +69,25 @@ class EventAttendeeController extends Controller
                 $eventAttendee = new Event_Attendee();
                 $eventAttendee->event_id = $request->event_id; // Replace $request->event_id with the actual event ID
                 $eventAttendee->attendee_id = $attendee->id;
-                $eventAttendee->checkin = now(); // Set current datetime as check-in time
+                $eventAttendee->checkin = Carbon::now()->toDateTimeString(); // Set current datetime as check-in time
                 $eventAttendee->save();
 
                 // Attendee successfully registered and checked in for the event
                 return response()->json([
                     'success' => true,
-                    'message' => 'Attendee registered and checked in successfully.',
+                    'message' => 'Attendee checked in successfully!',
+                    'attendee' => [
+                        'type' => $attendee->type,
+                        'checkin' => $eventAttendee->checkin,
+                        'fname' => $attendee->fname,
+                        'lname' => $attendee->lname,
+                        'birth_date' => $attendee->birth_date,
+                        'occupational_status' => $attendee->occupational_status,
+                        'school_name' => $attendee->school_name,
+                        'employer' => $attendee->employer,
+                        'work_specialization' => $attendee->work_specialization,
+
+                    ]
                 ]);
             }
 
@@ -80,19 +95,42 @@ class EventAttendeeController extends Controller
             if ($existingEventAttendee->checkin) {
                 // Attendee already checked in
                 return response()->json([
-                    'success' => false,
+                    'success' => true,
                     'message' => 'Attendee has already checked in for this event.',
+                    'attendee' => [
+                        'type' => $attendee->type,
+                        'checkin' => $existingEventAttendee->checkin,
+                        'fname' => $attendee->fname,
+                        'lname' => $attendee->lname,
+                        'birth_date' => $attendee->birth_date,
+                        'occupational_status' => $attendee->occupational_status,
+                        'school_name' => $attendee->school_name,
+                        'employer' => $attendee->employer,
+                        'work_specialization' => $attendee->work_specialization,
+
+                    ]
                 ]);
             }
 
             // Update the check-in time
-            $existingEventAttendee->checkin = now();
+            $existingEventAttendee->checkin = Carbon::now()->toDateTimeString();
             $existingEventAttendee->save();
 
             // Attendee successfully checked in
             return response()->json([
                 'success' => true,
                 'message' => 'Attendee checked in successfully.',
+                'attendee' => [
+                    'type' => $attendee->type,
+                    'checkin' => $existingEventAttendee->checkin,
+                    'fname' => $attendee->fname,
+                    'lname' => $attendee->lname,
+                    'birth_date' => $attendee->birth_date,
+                    'occupational_status' => $attendee->occupational_status,
+                    'school_name' => $attendee->school_name,
+                    'employer' => $attendee->employer,
+                    'work_specialization' => $attendee->work_specialization,
+                ]
             ]);
 
         } catch (\Exception $e) {
@@ -133,13 +171,25 @@ class EventAttendeeController extends Controller
                 $eventAttendee = new Event_Attendee();
                 $eventAttendee->event_id = $request->event_id; // Replace $request->event_id with the actual event ID
                 $eventAttendee->attendee_id = $attendee->id;
-                $eventAttendee->checkout = now(); // Set current datetime as checkout time
+                $eventAttendee->checkout = Carbon::now()->toDateTimeString(); // Set current datetime as checkout time
                 $eventAttendee->save();
 
                 // Attendee successfully registered and checked out for the event
                 return response()->json([
                     'success' => true,
-                    'message' => 'Attendee registered and checked out successfully.',
+                    'message' => 'Attendee checked out successfully.',
+                    'attendee' => [
+                        'type' => $attendee->type,
+                        'checkout' => $eventAttendee->checkout,
+                        'fname' => $attendee->fname,
+                        'lname' => $attendee->lname,
+                        'birth_date' => $attendee->birth_date,
+                        'occupational_status' => $attendee->occupational_status,
+                        'school_name' => $attendee->school_name,
+                        'employer' => $attendee->employer,
+                        'work_specialization' => $attendee->work_specialization,
+
+                    ]
                 ]);
             }
 
@@ -147,19 +197,42 @@ class EventAttendeeController extends Controller
             if ($existingEventAttendee->checkout) {
                 // Attendee already checked out
                 return response()->json([
-                    'success' => false,
+                    'success' => true,
                     'message' => 'Attendee has already checked out for this event.',
+                    'attendee' => [
+                        'type' => $attendee->type,
+                        'checkout' => $existingEventAttendee->checkout,
+                        'fname' => $attendee->fname,
+                        'lname' => $attendee->lname,
+                        'birth_date' => $attendee->birth_date,
+                        'occupational_status' => $attendee->occupational_status,
+                        'school_name' => $attendee->school_name,
+                        'employer' => $attendee->employer,
+                        'work_specialization' => $attendee->work_specialization,
+
+                    ]
                 ]);
             }
 
             // Update the checkout time
-            $existingEventAttendee->checkout = now();
+            $existingEventAttendee->checkout = Carbon::now()->toDateTimeString();
             $existingEventAttendee->save();
 
             // Attendee successfully checked out
             return response()->json([
                 'success' => true,
                 'message' => 'Attendee checked out successfully.',
+                'attendee' => [
+                    'type' => $attendee->type,
+                    'checkout' => $existingEventAttendee->checkout,
+                    'fname' => $attendee->fname,
+                    'lname' => $attendee->lname,
+                    'birth_date' => $attendee->birth_date,
+                    'occupational_status' => $attendee->occupational_status,
+                    'school_name' => $attendee->school_name,
+                    'employer' => $attendee->employer,
+                    'work_specialization' => $attendee->work_specialization,
+                ]
             ]);
 
         } catch (\Exception $e) {
@@ -170,6 +243,35 @@ class EventAttendeeController extends Controller
             ]);
         }
     }
+
+
+
+    public function exportAttendancePdf($event_id, $event_name)
+    {
+        // Fetch event attendees for the specified event ID
+        $attendees = Attendee::whereHas('eventAttendees', function ($query) use ($event_id) {
+            $query->where('event_id', $event_id);
+        })->with('eventAttendees')->get();
+
+        // Create a new Dompdf instance
+        $dompdf = new Dompdf();
+
+        // Load HTML content into Dompdf
+        $html = view('pdf.eventAttendees', compact('attendees', 'event_name'))->render();
+        $dompdf->loadHtml($html);
+
+        // Set paper size and orientation
+        $dompdf->setPaper('legal', 'portrait');
+
+        // Render the PDF
+        $dompdf->render();
+
+        // Output the generated PDF
+        return $dompdf->stream('attendance.pdf');
+    }
+
+
+
 
 
     /**
@@ -216,5 +318,3 @@ class EventAttendeeController extends Controller
         }
     }
 }
-
-

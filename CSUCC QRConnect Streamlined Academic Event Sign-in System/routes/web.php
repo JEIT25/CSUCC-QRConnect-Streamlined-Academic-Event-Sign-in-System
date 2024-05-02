@@ -4,8 +4,6 @@ use App\Http\Controllers\AttendeeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventAttendeeController;
 use App\Http\Controllers\EventController;
-use App\Http\Middleware\EnsureEventIndexShowRoute;
-use App\Http\Middleware\EnsureEventShowRoute;
 use App\Http\Middleware\EnsureResetPassword;
 use App\Models\Event;
 use Carbon\Carbon;
@@ -100,27 +98,27 @@ Route::middleware('auth')->group(function () {
     Route::delete('auth', [AuthController::class, 'destroy'])
         ->name('auth.destroy'); //handle log-outs, route
 
+    //export attendance records route
+    Route::get('event-attendees/export-attendance-pdf/{event_id}/{event_name}', [EventAttendeeController::class, 'exportAttendancePdf'])->name('event-attendee.exportPdf');
+
     //!Event routes
     Route::resource("events", EventController::class);
 
-    // Route::get('events/export-pdf', [EventController::class, 'exportPdf'])->name('events.exportPdf');
 
+    Route::get('event-attendees', [EventController::class, 'create']);
 
-    Route::get('events/create', [EventController::class, 'create'])->name('events.create');
 
     //route for create check in record
-    Route::get('event-attendees/checkin', [EventAttendeeController::class, 'createCheckIn'])->name('event-attendees.checkin')->middleware(EnsureEventShowRoute::class);
-
+    Route::get('event-attendees/checkin', [EventAttendeeController::class, 'createCheckIn'])->name('event-attendees.checkin');
     //route for create check out record
-    Route::get('event-attendees/checkout', [EventAttendeeController::class, 'createCheckOut'])->name('event-attendees.checkout')->middleware(EnsureEventShowRoute::class);
+    Route::get('event-attendees/checkout', [EventAttendeeController::class, 'createCheckOut'])->name('event-attendees.checkout');
 
     // Route for checking in an attendee
-    Route::post('event-attendees/checkin', [EventAttendeeController::class, 'checkIn',])->name('event-attendees.checkin')->middleware(EnsureEventShowRoute::class);
+    Route::post('event-attendees/checkin', [EventAttendeeController::class, 'checkIn',])->name('event-attendees.checkin');
 
     // Route for checking out an attendee
-    Route::post('event-attendees/checkout', [EventAttendeeController::class, 'checkOut'])->name('event-attendees.checkout')->middleware(EnsureEventShowRoute::class);
+    Route::post('event-attendees/checkout', [EventAttendeeController::class, 'checkOut'])->name('event-attendees.checkout');
 
-    Route::resource("event-attendees", EventAttendeeController::class)->only(['index','destroy'])
-        ->middleware(EnsureEventShowRoute::class); //middle ware that ensure that the qr scanner and show attendance record routes is access only through the event.show route
+    Route::resource("event-attendees", EventAttendeeController::class)->only(['index', 'destroy']);
 });
 

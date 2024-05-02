@@ -21,14 +21,17 @@
                 </li>
             </ul>
             <div class="card-footer d-flex justify-content-around">
-                <a class="btn btn-primary" href="{{ route('event-attendees.checkin', ['event_id' => $event->id]) }}">Attendance Check In</a>
+                <a class="btn btn-primary"
+                    href="{{ route('event-attendees.checkin', ['event_id' => $event->id]) }}">Attendance Check In</a>
 
-                <a class="btn btn-primary" href="{{ route('event-attendees.checkout', ['event_id' => $event->id]) }}">Attendance Check Out</a>
+                <a class="btn btn-primary"
+                    href="{{ route('event-attendees.checkout', ['event_id' => $event->id]) }}">Attendance Check Out</a>
 
                 <a class="btn btn-primary" href="{{ route('event-attendees.index', ['event_id' => $event->id]) }}">Show
                     Attendance Records</a>
 
-                <a class="btn btn-primary" href='#'>Export Attendance Records</a>
+                <a class="btn btn-primary" href="{{ route('event-attendee.exportPdf', ['event_id' => $event->id, 'event_name' => $event->name]) }}">Export
+                    Attendance Records as PDF</a>
             </div>
         </div>
     @endsection
