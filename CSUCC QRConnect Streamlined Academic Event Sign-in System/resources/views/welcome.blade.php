@@ -15,7 +15,8 @@
             <div class="collapse navbar-collapse mx-5" id="navbarNav">
                 <ul class="navbar-nav ms-auto me-5">
                     <li class="nav-item me-5">
-                        <a class="text-warning nav-link active" aria-current="page" href="{{route('attendees.create')}}">Generate QR Code</a>
+                        <a class="text-warning nav-link active" aria-current="page"
+                            href="{{ route('attendees.create') }}">Generate QR Code</a>
                     </li>
                     <li class="nav-item me-5">
                         <a class="text-warning nav-link" href="{{ route('attendees.events.list') }}">Events</a>
@@ -61,7 +62,12 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li><a class="dropdown-item" href="{{ route('attendees.events.list') }}">See Available Events</a>
+                        <li>
+                            <hr class="dropdown-divider">
                         </li>
+                        </li>
+                        <li><a class="dropdown-item" href="{{ route('attendees.retrieveQR') }}">Retrieve Existing QR
+                                Code</a></li>
                     </ul>
                 </div>
 
