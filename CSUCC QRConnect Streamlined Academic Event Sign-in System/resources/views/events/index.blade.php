@@ -18,11 +18,14 @@
     }
 </style>
 @section('content')
+    @extends('layouts.bars')
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card d-flex flex-column justify-content-center">
-                    <div class="card-header text-center"><h1 class="heading-1">My Events</h1></div>
+                    <div class="card-header text-center">
+                        <h1 class="heading-1">My Events</h1>
+                    </div>
                     <div class="card-footer d-flex justify-content-center align-items-center">
                         <form action="{{ route('events.create') }}" method="GET">
                             <button type="submit" class="btn btn-primary">Create new event</button>
@@ -59,8 +62,8 @@
                                         <a class="me-3 mt-1" href="{{ route('events.edit', ['event' => $event->id]) }}">
                                             <button class="btn btn-primary">Edit event</button>
                                         </a>
-                                        <form class="me-3 mt-1" action="{{ route('events.destroy', ['event' => $event->id]) }}"
-                                            method="POST">
+                                        <form class="me-3 mt-1"
+                                            action="{{ route('events.destroy', ['event' => $event->id]) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-primary">Delete event</button>

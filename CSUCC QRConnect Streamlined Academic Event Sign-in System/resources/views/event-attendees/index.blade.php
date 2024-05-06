@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+@extends('layouts.bars')
     <div class="container">
         <div class="table-responsive">
             <table class="table mx-auto mt-5">

@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Validation\ValidationException; //for handling validatione exception
-use Illuminate\Database\UniqueConstraintViolationException;
 use App\Models\User;
 use thiagoalessio\TesseractOCR\TesseractOCR; // orcr text extraction from image
 use Illuminate\Support\Str;
 use thiagoalessio\TesseractOCR\UnsuccessfulCommandException;
 use Illuminate\Http\Request;
-use Intervention\Image\ImageManagerStatic as Image;
 
 class AdminController extends Controller
 {
@@ -19,6 +17,14 @@ class AdminController extends Controller
     public function index()
     {
         return view('admins.index');
+    }
+
+    public function show()
+    {
+        $user = auth()->user();
+
+        // Pass the user data to the view
+        return view('admins.show', ['admin' => $user]);
     }
 
     /**
@@ -175,7 +181,7 @@ class AdminController extends Controller
             $errorMessage = 'An error occurred while saving the admin.';
             return redirect()->back()->withErrors(['error' => $errorMessage])->withInput();
         }
-        return redirect()->route('login')->with('success',"Account Created Successfully!");
+        return redirect()->route('login')->with('success', "Account Created Successfully!");
     }
 }
 

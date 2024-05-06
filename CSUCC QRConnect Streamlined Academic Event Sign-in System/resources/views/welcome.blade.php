@@ -4,7 +4,8 @@
     <nav class="bg-darkblue navbar-expand-lg navbar">
         <div class="container-fluid">
             <a class="text-warning fw-bold navbar-brand ms-5" href="#">
-                <img src="{{ asset('assets/images/qr-logo.png') }}" alt="Logo" width="30" height="24"class="d-inline-block align-text-center">
+                <img src="{{ asset('assets/images/qr-logo.png') }}" alt="Logo" width="30"
+                    height="24"class="d-inline-block align-text-center">
                 CSUCC QRConnect
             </a>
             <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -14,13 +15,13 @@
             <div class="collapse navbar-collapse mx-5" id="navbarNav">
                 <ul class="navbar-nav ms-auto me-5">
                     <li class="nav-item me-5">
-                        <a class="text-warning nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="text-warning nav-link active" aria-current="page" href="{{route('attendees.create')}}">Generate QR Code</a>
                     </li>
                     <li class="nav-item me-5">
-                        <a class="text-warning nav-link" href="#">About</a>
+                        <a class="text-warning nav-link" href="{{ route('attendees.events.list') }}">Events</a>
                     </li>
                     <li class="nav-item me-5">
-                        <a class="text-warning nav-link" href="{{route('login')}}">Log in as admin</a>
+                        <a class="text-warning nav-link" href="{{ route('login') }}">Log in as admin</a>
                     </li>
                 </ul>
             </div>
@@ -55,11 +56,12 @@
                         Attendee
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{route('attendees.create')}}">Generate QR Code</a></li>
+                        <li><a class="dropdown-item" href="{{ route('attendees.create') }}">Generate QR Code</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="{{route('attendees.events.list')}}">See Available Events</a></li>
+                        <li><a class="dropdown-item" href="{{ route('attendees.events.list') }}">See Available Events</a>
+                        </li>
                     </ul>
                 </div>
 
@@ -69,11 +71,11 @@
                         Admin
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{route('login')}}">Log In</a></li>
+                        <li><a class="dropdown-item" href="{{ route('login') }}">Log In</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="{{route('signup')}}">Sign Up</a></li>
+                        <li><a class="dropdown-item" href="{{ route('signup') }}">Sign Up</a></li>
                     </ul>
                 </div>
 
@@ -82,8 +84,7 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop1" tabindex="-1" aria-labelledby="exampleModalLabel1"
-            aria-hidden="true">
+        <div class="modal fade" id="staticBackdrop1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
             <div class="modal-dialog d-flex justify-content-center">
                 <div class="modal-content w-75">
                     <div class="modal-header">

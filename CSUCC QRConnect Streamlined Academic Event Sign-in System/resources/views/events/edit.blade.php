@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    @extends('layouts.bars')
     <div class="container">
         <h1>Edit Event</h1>
         <form id="myForm" action="{{ route('events.update', $event->id) }}" method="POST">

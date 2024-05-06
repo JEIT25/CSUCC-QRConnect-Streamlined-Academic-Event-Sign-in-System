@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    @extends('layouts.bars')
     <div class="container">
         <div class="card mt-4 ms-auto me-auto d-flex flex-column align-item-center justify-content-center"
             style="width:100%;">
@@ -30,7 +31,8 @@
                 <a class="btn btn-primary" href="{{ route('event-attendees.index', ['event_id' => $event->id]) }}">Show
                     Attendance Records</a>
 
-                <a class="btn btn-primary" href="{{ route('event-attendee.exportPdf', ['event_id' => $event->id, 'event_name' => $event->name]) }}">Export
+                <a class="btn btn-primary"
+                    href="{{ route('event-attendee.exportPdf', ['event_id' => $event->id, 'event_name' => $event->name]) }}">Export
                     Attendance Records as PDF</a>
             </div>
         </div>

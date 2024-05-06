@@ -35,11 +35,17 @@ route::get('/attendees/events-list', function () {
     return view('attendees.events')->with(['events' => $events]);//! FIX THIS ERROR LATER
 })->name('attendees.events.list');
 
+Route::get('attendees/retrieve-qr', [AttendeeController::class, 'retrieveQRForm'])
+    ->name('attendees.retrieveQR');
+
+Route::post('attendees/retrieve-qr', [AttendeeController::class, 'retrieveQR'])
+    ->name('attendees.retrieveQR.post');
+
 Route::resource('attendees', AttendeeController::class)->only([
     'create',
     'store',
     'show',
-    'events'
+    'events',
 ]);
 
 
@@ -56,6 +62,7 @@ Route::get('signup', function () {
 Route::post('admins', [AdminController::class, 'store'])
     ->name('admins.store'); //handle storing new admin acc
 
+
 //!authenticaion for admins routes
 Route::resource("auth", AuthController::class)->only([
     'create',
@@ -64,6 +71,10 @@ Route::resource("auth", AuthController::class)->only([
 Route::get('/auth', function () {
     return redirect()->route('auth.create');
 })->name('admins.login'); //handle storing new admin acc
+
+//show admin profile route
+Route::get('admins/show', [AdminController::class, 'show'])
+    ->name('admins.show');
 
 
 Route::get('login', function () {

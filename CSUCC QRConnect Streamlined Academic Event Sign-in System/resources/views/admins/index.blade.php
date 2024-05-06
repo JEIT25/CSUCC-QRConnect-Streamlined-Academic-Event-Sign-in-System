@@ -10,6 +10,7 @@
     }
 </style>
 @section('content')
+
     <nav class="bg-darkblue navbar-expand-lg navbar">
         <div class="container-fluid">
             <button class="btn btn-outline-dark ms-2 mt-1" type="button" data-bs-toggle="offcanvas"
@@ -20,7 +21,7 @@
                     </path>
                 </svg>
             </button>
-            <a class="text-warning fw-semibold navbar-brand ms-5" href="#">
+            <a class="text-warning fw-semibold navbar-brand ms-5" href="{{route('events.index')}}">
                 <img src="{{ asset('assets/images/qr-logo.png') }}" alt="Logo" width="30" height="24"
                     class="d-inline-block align-text-center">
                 CSUCC QRConnect
@@ -32,13 +33,7 @@
             <div class="collapse navbar-collapse mx-5" id="navbarNav">
                 <ul class="navbar-nav ms-auto me-5">
                     <li class="nav-item me-5">
-                        <a class="text-warning nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item me-5">
-                        <a class="text-warning nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item me-5">
-                        <a class="text-warning nav-link" href="{{ route('login') }}">Log in as admin</a>
+                        <a class="text-warning nav-link active" href="{{ route('events.index') }}">My Events</a>
                     </li>
                 </ul>
             </div>
@@ -76,6 +71,17 @@
                         </button>
                     </a>
 
+                    <a href="{{ route('admins.show') }}" class="link-underline link-underline-opacity-0">
+                        <button class="btn btn-warning my-3 text-white fw-semibold" style="min-width: 100%">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
+                                <path fill="#132533"
+                                    d="m8.533.133 5.25 1.68A1.75 1.75 0 0 1 15 3.48V7c0 1.566-.32 3.182-1.303 4.682-.983 1.498-2.585 2.813-5.032 3.855a1.697 1.697 0 0 1-1.33 0c-2.447-1.042-4.049-2.357-5.032-3.855C1.32 10.182 1 8.566 1 7V3.48a1.75 1.75 0 0 1 1.217-1.667l5.25-1.68a1.748 1.748 0 0 1 1.066 0Zm-.61 1.429.001.001-5.25 1.68a.251.251 0 0 0-.174.237V7c0 1.36.275 2.666 1.057 3.859.784 1.194 2.121 2.342 4.366 3.298a.196.196 0 0 0 .154 0c2.245-.957 3.582-2.103 4.366-3.297C13.225 9.666 13.5 8.358 13.5 7V3.48a.25.25 0 0 0-.174-.238l-5.25-1.68a.25.25 0 0 0-.153 0ZM9.5 6.5c0 .536-.286 1.032-.75 1.3v2.45a.75.75 0 0 1-1.5 0V7.8A1.5 1.5 0 1 1 9.5 6.5Z">
+                                </path>
+                            </svg></i>
+                            My Profile
+                        </button>
+                    </a>
+
                     <a href="/events" class="link-underline link-underline-opacity-0">
                         <button class="btn btn-success my-3 text-white fw-semibold" style="min-width: 100%">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
@@ -86,18 +92,6 @@
                             Dashboard
                         </button>
                     </a>
-
-                    <a href="/forgot-password" class="link-underline link-underline-opacity-0">
-                        <button class="btn btn-warning my-3 text-white fw-semibold" style="min-width: 100%">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16">
-                                <path fill="#132533"
-                                    d="m8.533.133 5.25 1.68A1.75 1.75 0 0 1 15 3.48V7c0 1.566-.32 3.182-1.303 4.682-.983 1.498-2.585 2.813-5.032 3.855a1.697 1.697 0 0 1-1.33 0c-2.447-1.042-4.049-2.357-5.032-3.855C1.32 10.182 1 8.566 1 7V3.48a1.75 1.75 0 0 1 1.217-1.667l5.25-1.68a1.748 1.748 0 0 1 1.066 0Zm-.61 1.429.001.001-5.25 1.68a.251.251 0 0 0-.174.237V7c0 1.36.275 2.666 1.057 3.859.784 1.194 2.121 2.342 4.366 3.298a.196.196 0 0 0 .154 0c2.245-.957 3.582-2.103 4.366-3.297C13.225 9.666 13.5 8.358 13.5 7V3.48a.25.25 0 0 0-.174-.238l-5.25-1.68a.25.25 0 0 0-.153 0ZM9.5 6.5c0 .536-.286 1.032-.75 1.3v2.45a.75.75 0 0 1-1.5 0V7.8A1.5 1.5 0 1 1 9.5 6.5Z">
-                                </path>
-                            </svg></i>
-                            Forgot Password
-                        </button>
-                    </a>
-
 
                     <form action="{{ route('auth.destroy') }}" method="POST">
                         @csrf

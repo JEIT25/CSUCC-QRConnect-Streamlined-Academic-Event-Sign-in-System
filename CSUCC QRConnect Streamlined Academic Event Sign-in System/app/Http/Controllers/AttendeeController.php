@@ -44,7 +44,7 @@ class AttendeeController extends Controller
         //handle the array value of work_specizalation data from request
         $employer = $request->input('employer');
         $workSpecializationArray = $request->input('work_specialization', []); //extract array data values from work_speicalization
-        if($workSpecializationArray[0] == Null|| $employer == Null) {
+        if ($workSpecializationArray[0] == Null || $employer == Null) {
             $request->merge(['work_specialization' => null]); //set to null if null values found
         } else {
             $request->merge(['work_specialization' => $workSpecializationArray[0]]); //set singular string value of array to new value of work specialization
@@ -141,17 +141,10 @@ class AttendeeController extends Controller
 
         //Generate QR Code for new attendee
         $new_attendee_qrCode = QrCode::margin(5)
-        ->size(250)
-        ->generate(
+            ->size(250)
+            ->generate(
                 $new_attendee->unique_code
             );
-        // $new_attendee_qrCode = QrCode::size(200)
-        //     ->backgroundColor(00,00,00)
-        //     ->color(0, 0, 0)
-        //     ->margin(1)
-        //     ->generate(
-        //         $new_attendee->unique_code
-        //     );
 
         //store new qr code in server storage (optional)
         // $qr_fileName = $new_attendee->fname . $new_attendee->lname . time() . 'svg';
@@ -186,28 +179,46 @@ class AttendeeController extends Controller
         return view("attendees.show")->with(['attendee_qrCode' => $attendee_qrCode, 'new_attendee' => $new_attendee]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+    public function retrieveQRForm() {
+        return view('attendees.retrieveQR.retrieve');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function retrieveQR(Request $request)
     {
-        //
-    }
+        //all form data converted to lowercase
+        foreach ($request->all() as $key => $value) {
+            // Lowercase the value only if it's a string
+            if (is_string($value)) {
+                $request->merge([$key => strtolower($value)]);
+            }
+        }
 
+
+        //validating data recieved
+        try {
+            // Validate the request data
+            $validatedData = $request->validate([
+                'email' => 'required|string|email|max:255',
+            ]);
+
+            // Validation passed, continue to create new attendee
+
+        } catch (ValidationException $e) {
+            return redirect()->back()->withErrors($e->validator->errors()->messages())->withInput();
+        }
+
+
+        $existAttendee = Attendee::where('email', '=', $request->email)->first();
+        if ($existAttendee) {
+            $existAttendee_qrCode = QrCode::margin(5)
+                ->size(250)
+                ->generate(
+                    $existAttendee->unique_code
+                );
+                return view('attendees.retrieveQR.success')->with(['attendee' => $existAttendee,'qrCode' => $existAttendee_qrCode]);
+        } else {
+            return redirect()->back()->withErrors(['email' => 'Attendee does not exist!'])->withInput();
+        }
+    }
 }
