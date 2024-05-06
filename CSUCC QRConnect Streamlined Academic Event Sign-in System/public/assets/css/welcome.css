@@ -6,8 +6,8 @@ a {
     cursor: pointer;
 }
 
-.bg-darkblue{
-    background-color: rgb(94, 118, 145);
+#bg-darkblue,.bg-darkblue{
+    background-color: rgb(94, 118, 145) !important;
 
 }
 
