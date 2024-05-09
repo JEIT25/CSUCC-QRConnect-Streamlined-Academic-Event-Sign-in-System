@@ -35,7 +35,7 @@ class ForgotPasswordController extends Controller
             $message->subject('Reset Password');
         });
 
-        return back();
+        return back()->with('success',"Reset password link sent to email");
     }
 
     function resetPassword($token)
@@ -64,7 +64,7 @@ class ForgotPasswordController extends Controller
 
         if (!$updated_password) {
             // dd($updated_password, $request->token);
-            return redirect()->route('reset.password',['token'=>$request->token])->with('error', 'invalid');
+            return redirect()->route('reset-password',['token'=>$request->token])->with('error', 'invalid');
         }
 
         User::where("email", $request->email)->update(['password' => Hash::make($request->password)]);

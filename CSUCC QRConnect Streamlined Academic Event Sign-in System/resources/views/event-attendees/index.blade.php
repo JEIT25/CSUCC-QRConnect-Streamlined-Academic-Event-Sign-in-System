@@ -28,13 +28,13 @@
                         @foreach ($attendee->eventAttendees as $eventAttendee)
                             <tr>
                                 <th scope="row">{{ $attendeeNumber++ }}</th>
-                                <td>{{ $attendee->fname }}</td>
-                                <td>{{ $attendee->lname }}</td>
-                                <td>{{ $attendee->type }}</td>
-                                <td>{{ $attendee->occupational_status }}</td>
-                                <td>{{ $attendee->school_name ?? 'N/A' }}</td>
-                                <td>{{ $attendee->employer ?? 'N/A' }}</td>
-                                <td>{{ $attendee->work_specialization ?? 'N/A' }}</td>
+                                <td class="text-capitalize">{{ $attendee->fname }}</td>
+                                <td class="text-capitalize">{{ $attendee->lname }}</td>
+                                <td class="text-capitalize">{{ $attendee->type }}</td>
+                                <td class="text-capitalize">{{ $attendee->occupational_status }}</td>
+                                <td class="text-capitalize">{{ $attendee->school_name ?? 'N/A' }}</td>
+                                <td class="text-capitalize">{{ $attendee->employer ?? 'N/A' }}</td>
+                                <td class="text-capitalize">{{ $attendee->work_specialization ?? 'N/A' }}</td>
                                 <td>
                                     {{-- format datetime to include AM OR PM else N/A --}}
                                     {{ $eventAttendee->checkin ? \Carbon\Carbon::parse($eventAttendee->checkin)->format('Y-m-d h:i:s A') : 'N/A' }}

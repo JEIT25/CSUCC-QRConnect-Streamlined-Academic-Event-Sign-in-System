@@ -87,17 +87,11 @@ Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkReques
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])
     ->name('forgot.password.post');
 
-Route::post('reset-password', [ForgotPasswordController::class, 'resetPasswordPost'])
-    ->name('reset-password.post')
-    ->middleware(EnsureResetPassword::class);
-
 Route::get('reset-password/{token}', [ForgotPasswordController::class, 'resetPassword'])
-    ->name('reset-password')
-    ->middleware(EnsureResetPassword::class);
+    ->name('reset-password');
 
-Route::get('/reset-password', function () {
-    return redirect()->route('forgot.password');
-})->name('reset.password');
+Route::post('reset-password', [ForgotPasswordController::class, 'resetPasswordPost'])
+    ->name('reset-password.post');
 
 //!group of protected  routes, needs authentication
 Route::middleware('auth')->group(function () {
