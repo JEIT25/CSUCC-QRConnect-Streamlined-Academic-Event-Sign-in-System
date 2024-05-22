@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="text-center mt-4">
-    <h1>Retrieve Forgotten QR Code</h1>
-    <h5>Please fill-in the email</h5>
-</div>
-    <form id="myForm" action="{{ route('attendees.retrieveQR.post') }}" method="POST" class="mx-auto mt-3" style="max-width: 50%">
+    @include('layouts.navbar')
+    <div class="text-center mt-4">
+        <h1>Retrieve Forgotten QR Code</h1>
+        <h5>Please fill-in the email</h5>
+    </div>
+    <form id="myForm" action="{{ route('attendees.retrieveQR.post') }}" method="POST" class="mx-auto mt-3"
+        style="max-width: 50%">
         {{-- Add cross-site request forgery (CSRF) token --}}
         @csrf
         <div class="mb-3">

@@ -49,9 +49,9 @@
                                             $startDateTime <= $now &&
                                             $startDateTime->addHours($event->duration) >= $now
                                         ) {
-                                            echo 'Ongoing';
+                                            echo 'Upcoming';
                                         } else {
-                                            echo 'Ended';
+                                            echo 'Ongoing';
                                         }
                                     @endphp
                                     <br>

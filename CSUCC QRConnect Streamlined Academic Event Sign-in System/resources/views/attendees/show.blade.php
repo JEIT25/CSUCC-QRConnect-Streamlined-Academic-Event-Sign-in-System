@@ -1,6 +1,6 @@
 @extends('layouts.app')
-
 @section('content')
+    @extends('layouts.bars')
     <div class="container" style="max-width: 100%">
         <div class="row mt-5">
             <div class="col-md-6 offset-md-3">

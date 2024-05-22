@@ -55,17 +55,16 @@ class EventController extends Controller
             'description' => 'required|string|max:5000',
             'location' => 'required|string|max:255',
             'start_date_time' => 'required|date_format:Y-m-d\TH:i:s',
-            'profile_image' => 'image|mimes:jpeg,png,jpg,gif|max:6048', // Add validation for profile image
+            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:6048', // Add validation for profile image
         ]);
-
+        $path = '';
         // Store the uploaded profile image
         if ($request->hasFile('profile_image')) {
-            $image = $request->file('profile_image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/event_profile_images', $imageName);
-            $profileImagePath = 'storage/event_profile_images/' . $imageName;
+            $file = $request->file('profile_image');
+            //image will be stored in the public dir
+            $path = $file->store('event_profile_images', 'event_profile_images');
         } else {
-            $profileImagePath = null;
+            $path = null;
         }
 
         $dateTime = new DateTime($request->start_date_time);
@@ -78,7 +77,7 @@ class EventController extends Controller
             'description' => $request->description,
             'location' => $request->location,
             'start_date_time' => $formattedDateTime,
-            'profile_image' => $profileImagePath, // Add profile image path to event attributes
+            'profile_image' => $path, // Add profile image path to event attributes
         ]);
 
         // Associate the event with the authenticated user

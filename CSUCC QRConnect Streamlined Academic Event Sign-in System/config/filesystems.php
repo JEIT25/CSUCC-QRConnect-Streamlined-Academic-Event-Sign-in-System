@@ -71,8 +71,8 @@ return [
 
         'event_profile_images' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/event_profile_images'),
-            'url' => env('APP_URL') . '/storage',
+            'root' => public_path('assets/images/event_profile_images'),
+            'url' => env('APP_URL') . '/public',
             'visibility' => 'public',
             'throw' => false,
         ],

@@ -5,7 +5,7 @@
         <div class="row mt-5">
             <div class="col-md-6 offset-md-3">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body text-capitalize">
                         <h2 class="card-title text-center text-capitalize">Attendee Found</h2>
                         <h3 class="card-title text-center text-capitalize">Attendee Information</h3>
                         <p class="card-text"><span class="fw-bold">Full Name:</span> {{ $attendee->fname }}

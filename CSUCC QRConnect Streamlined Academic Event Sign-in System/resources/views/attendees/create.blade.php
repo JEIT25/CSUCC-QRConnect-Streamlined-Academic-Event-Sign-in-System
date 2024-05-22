@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+ @include('layouts.navbar')
 <div class="text-center mt-4">
     <h1>Generate QR Code</h1>
     <h5>Please fill-in the required information</h5>

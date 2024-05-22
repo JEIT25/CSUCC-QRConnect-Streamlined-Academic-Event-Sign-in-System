@@ -24,7 +24,6 @@ class Attendee extends Model
         'lname',
         'birth_date',
         'occupational_status',
-        'school_name',
         'employer',
         'work_specialization',
         'email',

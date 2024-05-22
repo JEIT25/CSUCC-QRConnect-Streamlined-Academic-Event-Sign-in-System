@@ -4,6 +4,7 @@
 @extends('layouts.bars')
     <div class="container">
         <div class="table-responsive">
+            <h2 class="text-center mt-5 heading-2">Attendee Records</h2>
             <table class="table mx-auto mt-5">
                 <thead>
                     <tr>

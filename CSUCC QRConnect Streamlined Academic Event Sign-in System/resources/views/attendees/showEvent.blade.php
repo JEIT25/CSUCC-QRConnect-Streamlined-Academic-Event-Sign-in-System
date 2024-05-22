@@ -1,10 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+    @include('layouts.navbar')
     <div class="container">
         <div class="card mt-4 ms-auto me-auto d-flex flex-column align-item-center justify-content-center"
             style="width:100%;">
-            <img src="{{ asset($event->profile_image) }}" class="img-fluid card-img-top ms-auto me-auto mt-5" alt="..."
+            <img  src="{{ asset('assets/images/event_profile_images/' . $event->profile_image) }}" class="img-fluid card-img-top ms-auto me-auto mt-5" alt="..."
                 style="width: 50%;">
             <div class="card-body text-center mt-5">
                 <h5 class="card-title">{{ $event->name }}</h5>

@@ -4,7 +4,6 @@ use App\Http\Controllers\AttendeeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventAttendeeController;
 use App\Http\Controllers\EventController;
-use App\Http\Middleware\EnsureResetPassword;
 use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
@@ -30,7 +29,6 @@ route::get('/attendees/events-list', function () {
     // Retrieve all events where the start date time is greater than or equal to the specified start date
     $events = Event::where('start_date_time', '>=', $startDate)
         ->paginate(10);
-
     // Pass the $events variable to the view
     return view('attendees.events')->with(['events' => $events]);//! FIX THIS ERROR LATER
 })->name('attendees.events.list');
@@ -52,7 +50,7 @@ Route::resource('attendees', AttendeeController::class)->only([
 //!handle new admin creation
 Route::resource("admins", AdminController::class)->only([
     'create',
-    'store'
+    'store',
 ]);
 
 Route::get('signup', function () {
@@ -63,7 +61,7 @@ Route::post('admins', [AdminController::class, 'store'])
     ->name('admins.store'); //handle storing new admin acc
 
 
-//!authenticaion for admins routes
+//! authenticaion for admins routes
 Route::resource("auth", AuthController::class)->only([
     'create',
     'store',
@@ -72,9 +70,7 @@ Route::get('/auth', function () {
     return redirect()->route('auth.create');
 })->name('admins.login'); //handle storing new admin acc
 
-//show admin profile route
-Route::get('admins/show', [AdminController::class, 'show'])
-    ->name('admins.show');
+
 
 
 Route::get('login', function () {
@@ -99,6 +95,10 @@ Route::middleware('auth')->group(function () {
     //!admin routes
     Route::get('admins', [AdminController::class, 'index'])
         ->name('admins.index'); //homepage for admins that are authenticated
+
+    //show admin profile route
+    Route::get('admins/show', [AdminController::class, 'show'])
+        ->name('admins.show');
 
     Route::delete('auth', [AuthController::class, 'destroy'])
         ->name('auth.destroy'); //handle log-outs, route
