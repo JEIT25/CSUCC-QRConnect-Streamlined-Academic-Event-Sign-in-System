@@ -43,17 +43,14 @@
                                     @php
                                         $now = \Carbon\Carbon::now();
                                         $startDateTime = \Carbon\Carbon::parse($event->start_date_time);
+
                                         if ($startDateTime > $now) {
                                             echo 'Upcoming';
-                                        } elseif (
-                                            $startDateTime <= $now &&
-                                            $startDateTime->addHours($event->duration) >= $now
-                                        ) {
-                                            echo 'Upcoming';
                                         } else {
-                                            echo 'Ongoing';
+                                            echo 'Started';
                                         }
                                     @endphp
+
                                     <br>
                                     <div class="container d-flex align-item-center justify-content-start">
                                         <a class="me-3 mt-1" href="{{ route('events.show', ['event' => $event->id]) }}">

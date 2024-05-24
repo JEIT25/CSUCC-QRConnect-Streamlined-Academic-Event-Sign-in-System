@@ -76,16 +76,26 @@ Before proceeding, ensure that you have PHP and Composer installed on your syste
    - Open a terminal or command prompt.
    - Change directory to the root of your project where the `composer.json` file is located.
 
-3. **Run Composer Install**:
+3. **Enable Zip extension**:
+   - Go to your php.ini, usually located at the "C:\xampp\php\php.ini"
+   -search(control + r) for "extension=zip", uncomment the semicolon before to enable it
+
+4. **Run Composer Install**:
    - Execute the following command to install dependencies defined in `composer.json`:
      ```
      composer install
      ```
 
-4. **Wait for Installation**:
+5. **Wait for Installation**:
    - Composer will download and install all required packages specified in `composer.json`.
    - Wait for the process to complete.
 
-5. **Verify Installation**:
+6. **Verify Installation**:
    - Once the installation is finished, check for any error messages in the terminal.
    - Verify that the `vendor` directory is created in your project directory
+
+7. **Run Migrations**:
+   - make an env file, modify the  database settings of the env file to match the credentials of your current mysql credentials, an env.example is included in the project directory for reference
+   - click keys "control + p" and type database.php , same as the env file modify the mysql database config to match the credentials of your mysql database
+   - Change directory to the project directory and type in the command line "php artisan migrate", you will be prompt to create the database and laravel will automatically migrate all tables to your mysql database
+   - or you can choose to import the sql file included   in the mysql_database folder
