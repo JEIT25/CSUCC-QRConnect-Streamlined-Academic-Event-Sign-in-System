@@ -78,7 +78,7 @@ Before proceeding, ensure that you have PHP and Composer installed on your syste
 
 3. **Enable Zip extension**:
    - Go to your php.ini, usually located at the "C:\xampp\php\php.ini"
-   -search(control + r) for "extension=zip", uncomment the semicolon before to enable it
+   - search(control + r) for "extension=zip", uncomment the semicolon before to enable it
 
 4. **Run Composer Install**:
    - Execute the following command to install dependencies defined in `composer.json`:
